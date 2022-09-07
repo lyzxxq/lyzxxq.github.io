@@ -23,11 +23,13 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="一、数据抽象与封装概述（一）抽象与封装 抽象与封装是两个重要的程序设计手段，主要是用来驾驭程序的复杂度，便于大型程序的设计、理解与维护。  对于一个程序实体而言，    抽象是指该程序实体的外部可观察到的行为，不考虑该程序实体的内部是如何实现的。（控制复杂度） 封装是指把该程序实体内部的具体实现细节对使用者隐藏起来，只对外提供一个接口。（信息保护）   主要的程序抽象与封装机制包括：   过程抽象">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/posts/AP-1-1.png">
 <meta property="article:published_time" content="2022-09-07T11:00:00.000Z">
-<meta property="article:modified_time" content="2022-09-07T12:37:23.613Z">
+<meta property="article:modified_time" content="2022-09-07T13:17:41.208Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="高级程序设计">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/posts/AP-1-1.png">
   
   
   
@@ -231,7 +233,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          426 字
+          476 字
         
       </span>
     
@@ -303,18 +305,28 @@
 <li>数据抽象与封装</li>
 </ul>
 <h3 id="（二）过程抽象与封装"><a href="#（二）过程抽象与封装" class="headerlink" title="（二）过程抽象与封装"></a>（二）过程抽象与封装</h3><ol>
-<li><p><strong>过程抽象</strong><br>用一个名字来代表一段完成一定功能的程序代码，代码的使用者只需要知道代码的名字以及相应的功能，而不需要知道对应的程序代码是如何实现的。</p>
-</li>
-<li><p><strong>过程封装</strong></p>
-</li>
+<li><strong>过程抽象</strong></li>
+</ol>
+<ul>
+<li>用一个名字来代表一段完成一定功能的程序代码，代码的使用者只需要知道代码的名字以及相应的功能，而不需要知道对应的程序代码是如何实现的。</li>
+</ul>
+<ol start="2">
+<li><strong>过程封装</strong></li>
 </ol>
 <ul>
 <li>把命名代码的具体实现隐藏起来（对使用者不可见，或不可直接访问），使用者只能通过代码名字来使用相应的代码。</li>
 <li>命名代码所需要的数据是通过参数（或全局变量）来获得，计算结果通过返回值机制（或全局变量）返回。</li>
 </ul>
 <ol start="3">
-<li>实现过程抽象与封装的程序实体通常称为子程序。在C&#x2F;C++语言中，子程序用函数来表示。</li>
+<li><p>实现过程抽象与封装的程序实体通常称为<strong>子程序</strong>。在C&#x2F;C++语言中，子程序用<strong>函数</strong>来表示。</p>
+</li>
+<li><p>过程抽象与封装是基于功能分解与复合的<strong>过程式程序设计</strong>的基础。<br><img src="/img/posts/AP-1-1.png" srcset="/img/loading.gif" lazyload alt="这是图片" title="过程式程序设计"></p>
+</li>
 </ol>
+<ul>
+<li>过程实现了抽象与封装</li>
+<li>数据是公开的，缺乏保护</li>
+</ul>
 
                 
               </div>
