@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title></title>
+    <link href="/2022/09/07/AP1/"/>
+    <url>/2022/09/07/AP1/</url>
+    
+    <content type="html"><![CDATA[<h2 id="一、数据抽象与封装概述"><a href="#一、数据抽象与封装概述" class="headerlink" title="一、数据抽象与封装概述"></a>一、数据抽象与封装概述</h2><p>###（一）抽象与封装</p><ol><li><p>抽象与封装是两个重要的程序设计手段，主要是用来驾驭程序的复杂度，便于<strong>大型程序</strong>的设计、理解与维护。</p></li><li><p>对于一个程序实体而言，</p></li></ol><ul><li>抽象是指该程序实体的外部可观察到的行为，不考虑该程序实体的内部是如何实现的。（控制复杂度）</li><li>封装是指把该程序实体内部的具体实现细节对使用者隐藏起来，只对外提供一个接口。（信息保护）</li></ul><ol start="3"><li><p>主要的程序抽象与封装机制包括：<br>过程抽象与封装<br>数据抽象与封装</p><p> (1){\heiti 证明}\quad<br> 假设当$x\in[-1, 1]$时，$\left|x^d\right|&lt;\dfrac{1}{2^{d-1}}$.\<br> 由切比雪夫多项式的性质，$T_d(x)$在$\cos0,\cos\dfrac{\pi}{d},\cdots,\cos\dfrac{(d-1)\pi}{d},\cos\pi$这$d+1$个点上满足$\left|T_d(x)\right|&#x3D;1$，且正负不断交替.\<br> 令$x_i&#x3D;\cos\dfrac{i\pi}{d}$，则$T_d(x^i)&#x3D;(-1)^i$，$i&#x3D;0,1,\cdots,d$.\<br> 令$G(x)&#x3D;x^d-\dfrac{1}{2^{d-1}}T_d(x)$,则$\forall k\in\mathbb{N}$有\<br> 当$i&#x3D;2^{k+1}$时，$G\left(x_i\right)&gt;0$；当$i&#x3D;2^{k}$时，$G\left(x_i\right)&lt;0$.\<br> 根据介值定理，存在$y_i$满足$G\left(y_i\right)&#x3D;0$，其中$x_i&lt; y_{i+1}&lt; x_{i+1}$，$i&#x3D;0,1,\cdots,d-1$.\<br> 由于$G(x)$为$n-1$阶多项式，且有$n$个零点.\<br> 则$G(x)\equiv0$.\<br> 即$x^d-\dfrac{1}{2^{d-1}}T_d(x)&#x3D;0$.\<br> 由于$\max\limits_{-1\le x\le1}T_d(x)&#x3D;1$.\<br> 与$\left|x^d\right|&lt;\dfrac{1}{2^{d-1}}$矛盾.\<br> 因此，在 $[-1, 1]$ 上的无穷范数的意义下, $x^d-\dfrac{1}{2^{d-1}} T_d(x)$ 是 $x^d$ 的最优的 $d-1$ 阶近似.\</p></li></ol>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>计算机网络笔记一</title>
     <link href="/2022/09/04/computer_network_note_1/"/>
     <url>/2022/09/04/computer_network_note_1/</url>
