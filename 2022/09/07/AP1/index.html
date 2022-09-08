@@ -25,8 +25,9 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/img/posts/AP-1-1.png">
 <meta property="og:image" content="http://example.com/img/posts/AP-1-2.png">
+<meta property="og:image" content="http://example.com/img/posts/AP-1-3.png">
 <meta property="article:published_time" content="2022-09-07T11:00:00.000Z">
-<meta property="article:modified_time" content="2022-09-08T00:59:27.725Z">
+<meta property="article:modified_time" content="2022-09-08T01:16:18.449Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="高级程序设计">
 <meta name="twitter:card" content="summary_large_image">
@@ -234,7 +235,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.1k 字
+          2.3k 字
         
       </span>
     
@@ -245,7 +246,7 @@
         
         
         
-          9 分钟
+          19 分钟
         
       </span>
     
@@ -358,8 +359,38 @@
 <li>即，增加&#x2F;删除操作在线性序列的同一端进行（<strong>后进先出</strong>，Last In First Out，简称LIFO）<br>从数据抽象的角度，栈的使用者只需要知道上面的这些信息，不需要知道栈是如何实现的（数组或链表等）。</li>
 </ul>
 <ol start="2">
-<li>“栈”的实现————非数据抽象和封装途径<br>定义一个数据类型来表示栈数据  <figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-type">const</span> <span class="hljs-type">int</span> STACK_SIZE=<span class="hljs-number">100</span>;  <br><span class="hljs-keyword">struct</span> <span class="hljs-title class_">Stack</span>  <br>&#123;	<span class="hljs-type">int</span> top;  <br><span class="hljs-type">int</span> buffer[STACK_SIZE];  <br>	&#125;;<br></code></pre></td></tr></table></figure></li>
+<li>“栈”的实现————非数据抽象和封装途径</li>
 </ol>
+<ul>
+<li><p>定义一个数据类型来表示栈数据  </p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-type">const</span> <span class="hljs-type">int</span> STACK_SIZE=<span class="hljs-number">100</span>;  <br><span class="hljs-keyword">struct</span> <span class="hljs-title class_">Stack</span>  <br>&#123;	<span class="hljs-type">int</span> top;  <br><span class="hljs-type">int</span> buffer[STACK_SIZE];  <br>	&#125;;<br></code></pre></td></tr></table></figure>
+<p><img src="/img/posts/AP-1-3.png" srcset="/img/loading.gif" lazyload alt="这是图片" title="栈"></p>
+</li>
+<li><p>直接操作栈数据</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs awk">Stack st; <span class="hljs-regexp">//</span>定义栈数据<br>st.top = -<span class="hljs-number">1</span>; <span class="hljs-regexp">//</span>对st进行初始化<br><span class="hljs-regexp">//</span>把<span class="hljs-number">12</span>放进栈<br><span class="hljs-keyword">if</span> (st.top == STACK_SIZE-<span class="hljs-number">1</span>)   <br>&#123; cout &lt;&lt; <span class="hljs-string">&quot;Stack is overflow.\n&quot;</span>; <span class="hljs-keyword">exit</span>(-<span class="hljs-number">1</span>); &#125;<br>st.top++; st.buffer[st.top] = <span class="hljs-number">12</span>; <br>......<br><span class="hljs-regexp">//</span>把栈顶元素退栈并存入变量x<br><span class="hljs-keyword">if</span> (st.top == -<span class="hljs-number">1</span>)    <br>&#123; cout &lt;&lt; <span class="hljs-string">&quot;Stack is empty.\n&quot;</span>; <span class="hljs-keyword">exit</span>(-<span class="hljs-number">1</span>); &#125;<br>int x = st.buffer[st.top]; st.top--;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>存在的问题  <ul>
+<li>操作必须知道数据的具体表示形式。</li>
+<li>数据表示形式发生变化将会影响操作。</li>
+<li>麻烦并易产生误操作，因此不安全。例如，把进栈操作误写成：   <figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs stata"><span class="hljs-keyword">st</span>.top--; <span class="hljs-comment">//书写失误导致误操作</span><br>     <span class="hljs-keyword">st</span>.buffer[<span class="hljs-keyword">st</span>.top] = 12;<br></code></pre></td></tr></table></figure></li>
+<li>忘了初始化： <code>st.top = -1;</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>通过过程抽象与封装操作栈数据</p>
+<ul>
+<li>先预定义三个函数  <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs awk">void init(Stack &amp;s)<br>&#123;   s.top = -<span class="hljs-number">1</span>;<br>&#125;<br>void push(Stack &amp;s, int i)<br>&#123;	<span class="hljs-keyword">if</span> (s.top == STACK_SIZE-<span class="hljs-number">1</span>) <br>	&#123;	cout &lt;&lt; “Stack is overflow.\n”;<br>		<span class="hljs-keyword">exit</span>(-<span class="hljs-number">1</span>);<br>	&#125;<br>	<span class="hljs-keyword">else</span><br>	&#123;	s.top++; s.buffer[s.top] = i;<br>		return;<br>	&#125;<br>&#125;<br>void pop(Stack &amp;s, int &amp;i)<br>&#123;	<span class="hljs-keyword">if</span> (s.top == -<span class="hljs-number">1</span>) <br>	&#123;	cout &lt;&lt;“Stack is empty.\n”;<br>		<span class="hljs-keyword">exit</span>(-<span class="hljs-number">1</span>);<br>	&#125;<br>  	<span class="hljs-keyword">else</span> <br>	&#123;	 i = s.buffer[s.top]; s.top--;<br>		return;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+<li>利用预定义的函数操作栈数据<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs scss">Stack st; <span class="hljs-comment">//定义栈数据</span><br>int x;<br><span class="hljs-built_in">init</span>(st);  <span class="hljs-comment">//对st进行初始化。</span><br><span class="hljs-built_in">push</span>(st,<span class="hljs-number">12</span>);  <span class="hljs-comment">//把12放进栈。</span><br>......<br><span class="hljs-built_in">pop</span>(st,x);  <span class="hljs-comment">//把栈顶元素退栈并存入变量x。</span><br></code></pre></td></tr></table></figure></li>
+<li>存在的问题<ul>
+<li>数据类型的定义与操作的定义是<strong>分开</strong>的，二者之间没有<strong>显式</strong>的联系，push、pop在<strong>形式</strong>上与下面的函数f没有区别，函数f也能作用于st： <figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs lasso"><span class="hljs-literal">void</span> f(<span class="hljs-built_in">Stack</span> &amp;s) &#123; <span class="hljs-params">...</span><span class="hljs-params">...</span> &#125;<br>f(st); <span class="hljs-comment">//操作st之后，st可能不再是一个“栈”了！</span><br></code></pre></td></tr></table></figure></li>
+<li>数据表示仍然是公开的，无法防止使用者直接操作栈数据，因此也会面临直接操作栈数据所带来的问题。例如，把进栈操作误写成：   <figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs abnf">st.top--<span class="hljs-comment">; </span><br>st.buffer[st.top] <span class="hljs-operator">=</span> <span class="hljs-number">12</span><span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure></li>
+<li>忘了初始化：<code>init(st);</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 
                 
               </div>
