@@ -23,13 +23,13 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="一、基本概念（一）数据（Data） 信息与数据   信息 用于反映现实世界中事物的物理状态，向人们提供一些已知的、客观存在的事实和知识   数据 是指具有一定的语义含义，并且可以被记录下来的已知事实 在计算机中，数据被表示为具有一定格式（或结构）的符号串 ，它是计算机软件中程序加工的原料与结果，属于软件范畴   数据是信息的载体，信息则是数据的内涵   数据的特性   数据表现的多样性：常用数据、">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/img/posts/BD-1-1.jpg">
+<meta property="og:image" content="http://example.com/img/posts/DB-1-1.jpg">
 <meta property="article:published_time" content="2022-09-09T04:00:00.000Z">
-<meta property="article:modified_time" content="2022-09-09T06:48:19.328Z">
+<meta property="article:modified_time" content="2022-09-09T07:05:04.838Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="数据库">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/img/posts/BD-1-1.jpg">
+<meta name="twitter:image" content="http://example.com/img/posts/DB-1-1.jpg">
   
   
   
@@ -233,7 +233,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          911 字
+          1.2k 字
         
       </span>
     
@@ -244,7 +244,7 @@
         
         
         
-          8 分钟
+          11 分钟
         
       </span>
     
@@ -325,7 +325,7 @@
 <li>数据的服务范围：私有$\to$共享</li>
 <li>数据在软件中的地位：附属地位（以程序为主体）$\to$主导地位（以数据为中心）</li>
 </ul>
-<p><img src="/img/posts/BD-1-1.jpg" srcset="/img/loading.gif" lazyload alt="这是图片" title="以数据为主体的软件系统示意图"></p>
+<p><img src="/img/posts/DB-1-1.jpg" srcset="/img/loading.gif" lazyload alt="这是图片" title="以数据为主体的软件系统示意图"></p>
 <h3 id="（二）数据库（Database，简称DB）"><a href="#（二）数据库（Database，简称DB）" class="headerlink" title="（二）数据库（Database，简称DB）"></a>（二）数据库（Database，简称DB）</h3><ol>
 <li><p>数据库是<strong>数据的集合</strong>，它具有统一的结构形式，存放于统一的存贮介质内，并由统一机构管理，它由多种应用数据集成，并可被应用所共享。</p>
 </li>
@@ -353,8 +353,8 @@
 </ol>
 <ul>
 <li>数据组织（Definition）<ul>
-<li>数据模式定义（为数据库构造数据框架）</li>
-<li>数据存取的物理操作（为数据模式构造有效的物理存取方法与手段）</li>
+<li><strong>数据模式定义</strong>（为数据库构造数据框架）</li>
+<li><strong>数据存取的物理操作</strong>（为数据模式构造有效的物理存取方法与手段）</li>
 </ul>
 </li>
 <li>数据操纵（Manipulation）<ul>
@@ -364,11 +364,11 @@
 </ul>
 </li>
 <li>数据维护<ul>
-<li>数据的完整性、安全性定义与检查</li>
+<li><strong>数据的完整性、安全性定义与检查</strong></li>
 </ul>
 </li>
 <li>数据控制及保护<ul>
-<li>数据库的并发控制与故障恢复</li>
+<li><strong>数据库的并发控制与故障恢复</strong></li>
 </ul>
 </li>
 <li>数据交换</li>
@@ -378,6 +378,37 @@
 </ul>
 </li>
 <li>数据字典</li>
+</ul>
+<ol start="5">
+<li>数据子语言（data sub_language）</li>
+</ol>
+<ul>
+<li>数据定义语言（Data Definition Language，简称DDL）<ul>
+<li>负责数据的模式定义与数据的物理存取构作</li>
+</ul>
+</li>
+<li>数据操纵语言（Data Manipulation Language，简称DML）<ul>
+<li>负责数据的操纵，包括查询及增、删、改等操作</li>
+</ul>
+</li>
+<li>数据控制语言（Data Control Language，简称DCL）<ul>
+<li>负责数据的完整性、安全性的定义与检查以及并发控制、故障恢复等功能</li>
+</ul>
+</li>
+</ul>
+<ol start="6">
+<li>数据子语言的使用方式</li>
+</ol>
+<ul>
+<li>交互式命令语言<ul>
+<li>能在终端上即席操作，又被称为自含型或自主型语言</li>
+</ul>
+</li>
+<li>宿主型语言<ul>
+<li>需要嵌入到某种<strong>宿主语言</strong>中</li>
+<li>宿主语言：一种高级程序设计语言，比如FORTRAN，C&#x2F;C++，JAVA，Python等</li>
+</ul>
+</li>
 </ul>
 
                 
