@@ -30,7 +30,7 @@
 <meta property="og:image" content="http://example.com/img/posts/DB-2-5.jpg">
 <meta property="og:image" content="http://example.com/img/posts/DB-2-6.jpg">
 <meta property="article:published_time" content="2022-09-13T10:00:00.000Z">
-<meta property="article:modified_time" content="2022-09-15T07:58:32.844Z">
+<meta property="article:modified_time" content="2022-09-15T08:41:17.094Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="数据库">
 <meta name="twitter:card" content="summary_large_image">
@@ -601,33 +601,34 @@
 </li>
 <li><p>连接关系的表示</p>
 <ul>
-<li>实体集与属性间的连接关系<ul>
+<li><p>实体集与属性间的连接关系</p>
+<ul>
 <li>实体集： student</li>
 <li>属性：<ul>
 <li>S<sup>#</sup>（学号）</li>
 <li>Sn（学生姓名）</li>
-<li>Sa（学生年龄）</li>
+<li>Sa（学生年龄）      <div align=center><img src="/img/posts/DB-2-4.jpg" srcset="/img/loading.gif" lazyload title="E-R图表示法" height="50%" width="50%" /></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>联系与属性的连接关系</p>
+<ul>
+<li>联系：SC</li>
+<li>属性：G（学生的课程成绩）      <div align=center><img src="/img/posts/DB-2-5.jpg" srcset="/img/loading.gif" lazyload title="E-R图表示法" height="50%" width="50%" /></div></li>
+</ul>
+</li>
+<li><p>每个实体集（联系）可以有多个属性，但每个属性只能隶属于一个实体集（联系）</p>
+</li>
+<li><p>实体集与联系间的连接关系E-R图</p>
+<ul>
+<li>实体集student与联系SC</li>
+<li>实体集course与联系SC      <div align=center><img src="/img/posts/DB-2-6.jpg" srcset="/img/loading.gif" lazyload title="E-R图表示法" height="50%" width="50%" /></div></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
-</li>
-</ul>
-<img src="/img/posts/DB-2-4.jpg" srcset="/img/loading.gif" lazyload title="E-R图表示法" height="50%" width="50%" align=center>
-
-<pre><code class="hljs"> - 联系与属性的连接关系
-     - 联系：SC
-     - 属性：G（学生的课程成绩）    
-</code></pre>
-<img src="/img/posts/DB-2-5.jpg" srcset="/img/loading.gif" lazyload width="50%" height="50%">
-
-<pre><code class="hljs"> - 每个实体集（联系）可以有多个属性，但每个属性只能隶属于一个实体集（联系）
- - 实体集与联系间的连接关系E-R图
-     - 实体集student与联系SC
-     - 实体集course与联系SC    
-</code></pre>
-<p><img src="/img/posts/DB-2-6.jpg" srcset="/img/loading.gif" lazyload alt="这是图片" title="E-R图表示法"></p>
 <p>【注】为了刻划实体间的函数对应关系，必须在线段边上用1:1（一对一），1:n（一对多），n:m（多对多）等注明</p>
 
                 
