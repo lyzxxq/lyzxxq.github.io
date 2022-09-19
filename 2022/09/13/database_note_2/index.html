@@ -29,8 +29,10 @@
 <meta property="og:image" content="http://example.com/img/posts/DB-2-4.jpg">
 <meta property="og:image" content="http://example.com/img/posts/DB-2-5.jpg">
 <meta property="og:image" content="http://example.com/img/posts/DB-2-6.jpg">
+<meta property="og:image" content="http://example.com/img/posts/DB-2-7.jpg">
+<meta property="og:image" content="http://example.com/img/posts/DB-2-8.jpg">
 <meta property="article:published_time" content="2022-09-13T10:00:00.000Z">
-<meta property="article:modified_time" content="2022-09-15T09:05:43.849Z">
+<meta property="article:modified_time" content="2022-09-18T17:33:03.813Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="数据库">
 <meta name="twitter:card" content="summary_large_image">
@@ -539,9 +541,9 @@
 </ul>
 </li>
 <li>联系的函数对应关系<ul>
-<li>一一对应（one to one）</li>
-<li>一多对应（one to many）或 多一对应（many to one）</li>
-<li>多多对应（many to many）</li>
+<li>一一对应（1 : 1）</li>
+<li>一多对应（1 : m）或 多一对应（m : 1）</li>
+<li>多多对应（m : n）</li>
 </ul>
 </li>
 <li>联系所具有的特性<ul>
@@ -556,14 +558,10 @@
 </li>
 </ul>
 </li>
-<li><p>基本概念之间的连接关系</p>
+</ul>
+<h4 id="3-基本概念之间的连接关系"><a href="#3-基本概念之间的连接关系" class="headerlink" title="3. 基本概念之间的连接关系"></a>3. 基本概念之间的连接关系</h4><ul>
+<li><p>实体（集）、属性及其连接关系的描述</p>
 <ul>
-<li>实体集（联系）与属性间的连接关系</li>
-<li>实体集与联系间的连接关系</li>
-</ul>
-</li>
-</ul>
-<h4 id="3-实体（集）、属性及其连接关系的描述"><a href="#3-实体（集）、属性及其连接关系的描述" class="headerlink" title="3. 实体（集）、属性及其连接关系的描述"></a>3. 实体（集）、属性及其连接关系的描述</h4><ul>
 <li>属性的描述：属性名，属性域</li>
 <li>实体的描述：<ul>
 <li>实体名</li>
@@ -584,22 +582,26 @@
 </ul>
 </li>
 </ul>
-<h4 id="4-联系及其与实体集之间的连接关系的描述"><a href="#4-联系及其与实体集之间的连接关系的描述" class="headerlink" title="4. 联系及其与实体集之间的连接关系的描述"></a>4. 联系及其与实体集之间的连接关系的描述</h4><ul>
+</li>
+<li><p>联系及其与实体集之间的连接关系的描述</p>
+<ul>
 <li>联系名：每个联系有一个名字</li>
 <li>属性：联系也可以有属性<ul>
-<li>由一个<strong>联系名</strong> + 与该联系相关的<strong>实体集的名称</strong>，以及联系上的属性，从而构成联系及其与实体集之间的连接关系的描述</li>
+<li>由一个<strong>联系名</strong> + 与该联系相关的<strong>实体集的名称</strong>，以及<strong>联系上的属性</strong>，从而构成联系及其与实体集之间的连接关系的描述</li>
 </ul>
 </li>
 <li>函数对应关系</li>
 </ul>
-<h4 id="5-E-R-模型的图示法：E-R-图"><a href="#5-E-R-模型的图示法：E-R-图" class="headerlink" title="5. E-R 模型的图示法：E-R 图"></a>5. E-R 模型的图示法：E-R 图</h4><ul>
-<li>使用一些简单的图形符号来表示概念数据模型</li>
-<li>基本概念的表示</li>
+</li>
 </ul>
-<div align=center><img src="/img/posts/DB-2-3.jpg" srcset="/img/loading.gif" lazyload title="基本概念的表示" height="50%" width="50%" /></div>
-
+<h4 id="4-E-R-模型的图示法：E-R-图"><a href="#4-E-R-模型的图示法：E-R-图" class="headerlink" title="4. E-R 模型的图示法：E-R 图"></a>4. E-R 模型的图示法：E-R 图</h4><ul>
+<li><p>使用一些简单的图形符号来表示概念数据模型</p>
+</li>
+<li><p>基本概念的表示</p>
+  <div align=center><img src="/img/posts/DB-2-3.jpg" srcset="/img/loading.gif" lazyload title="基本概念的表示" height="50%" width="50%" /></div>
+</li>
+<li><p>连接关系的表示</p>
 <ul>
-<li>连接关系的表示<ul>
 <li><p>实体集与属性间的连接关系</p>
 <ul>
 <li>实体集： student</li>
@@ -625,10 +627,14 @@
 <li>实体集course与联系SC      <div align=center><img src="/img/posts/DB-2-6.jpg" srcset="/img/loading.gif" lazyload title="E-R图表示法" height="50%" width="50%" /></div></li>
 </ul>
 </li>
+<li><p>每个联系可以与一个或多个实体集相关，每个实体集也可以与一个或多个联系相关</p>
+  <div align=center><img src="/img/posts/DB-2-7.jpg" srcset="/img/loading.gif" lazyload title="E-R图表示法" height="50%" width="50%" /></div></li>
 </ul>
 </li>
+<li><p>例：下图给出了一个工厂的物资管理E-R图，它由职工（employee），仓库（warehouse），项目（project），零件（part），供应商（supplier）等五个实体集以及供应、库存、领导、工作等四个联系所组成。</p>
+</li>
 </ul>
-<p>【注】为了刻划实体间的函数对应关系，必须在线段边上用1:1（一对一），1:n（一对多），n:m（多对多）等注明</p>
+<p><img src="/img/posts/DB-2-8.jpg" srcset="/img/loading.gif" lazyload alt="这是图片" title="某工厂物资管理E-R图"></p>
 
                 
               </div>
