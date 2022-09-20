@@ -31,8 +31,12 @@
 <meta property="og:image" content="http://example.com/img/posts/DB-2-6.jpg">
 <meta property="og:image" content="http://example.com/img/posts/DB-2-7.jpg">
 <meta property="og:image" content="http://example.com/img/posts/DB-2-8.jpg">
+<meta property="og:image" content="http://example.com/img/posts/DB-2-9.jpg">
+<meta property="og:image" content="http://example.com/img/posts/DB-2-10.jpg">
+<meta property="og:image" content="http://example.com/img/posts/DB-2-11.jpg">
+<meta property="og:image" content="http://example.com/img/posts/DB-2-12.jpg">
 <meta property="article:published_time" content="2022-09-13T10:00:00.000Z">
-<meta property="article:modified_time" content="2022-09-18T17:33:03.813Z">
+<meta property="article:modified_time" content="2022-09-20T05:31:30.416Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="数据库">
 <meta name="twitter:card" content="summary_large_image">
@@ -240,7 +244,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.3k 字
+          3.8k 字
         
       </span>
     
@@ -251,7 +255,7 @@
         
         
         
-          28 分钟
+          32 分钟
         
       </span>
     
@@ -635,7 +639,70 @@
 </li>
 </ul>
 <p><img src="/img/posts/DB-2-8.jpg" srcset="/img/loading.gif" lazyload alt="这是图片" title="某工厂物资管理E-R图"></p>
+<h3 id="（二）扩充的E-R模型（EE-R模型）"><a href="#（二）扩充的E-R模型（EE-R模型）" class="headerlink" title="（二）扩充的E-R模型（EE-R模型）"></a>（二）扩充的E-R模型（EE-R模型）</h3><h4 id="1-IS-A联系"><a href="#1-IS-A联系" class="headerlink" title="1. IS-A联系"></a>1. IS-A联系</h4><ul>
+<li><p>如果实体集 B 是实体集 A 的一个子集，且具有比实体集 A 更多的属性，则我们称在实体集 A 与实体集 B 之间存在着一种特殊的<strong>IS-A 联系</strong>。其中</p>
+<ul>
+<li>实体集 A 被称为实体集 B 的<strong>超（实体）集</strong></li>
+<li>实体集 B 被称为实体集 A 的<strong>子（实体）集</strong></li>
+</ul>
+ <div align=center><img src="/img/posts/DB-2-9.jpg" srcset="/img/loading.gif" lazyload title="超集和子集" height="50%" width="50%" /></div>
+</li>
+<li><p>子集 B 可以通过IS-A联系<strong>继承</strong>超集A中的所有属性</p>
+</li>
+</ul>
+<h4 id="2-EE-R图"><a href="#2-EE-R图" class="headerlink" title="2. EE-R图"></a>2. EE-R图</h4><ul>
+<li>IS-A联系的表示方法</li>
+<li>例：用EE-R图表示大学、校长、职工间的概念模型。</li>
+</ul>
+<p><img src="/img/posts/DB-2-10.jpg" srcset="/img/loading.gif" lazyload alt="这是图片" title="EE-R图"></p>
+<ul>
+<li>弱实体（Weak Entity）<ul>
+<li><p>如果一个实体 A 的存在需要依赖于其他实体集中的某个实体的存在，那么实体 A 被称为弱实体。例如：</p>
+<ul>
+<li>职工 vs 家属</li>
+<li>学生 vs 家长</li>
+</ul>
+</li>
+<li><p>弱实体（集）与所依赖的实体（集）之间的函数对应关系应该是<strong>多对一</strong>的关系</p>
+</li>
+<li><p>弱实体的表示</p>
+<ul>
+<li>从弱实体到联系的有向箭头</li>
+</ul>
+ <div align=center><img src="/img/posts/DB-2-11.jpg" srcset="/img/loading.gif" lazyload title="弱实体的表示" height="50%" width="50%" /></div>
+</li>
+<li><p>弱实体的例子</p>
+<ul>
+<li>订单、订单项与所订购的商品之间的EE-R图</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="/img/posts/DB-2-12.jpg" srcset="/img/loading.gif" lazyload alt="这是图片" title="订单、订单项与所订购的商品之间的EE-R图"></p>
+<h2 id="四、信息世界与逻辑模型"><a href="#四、信息世界与逻辑模型" class="headerlink" title="四、信息世界与逻辑模型"></a>四、信息世界与逻辑模型</h2><h3 id="（一）概述"><a href="#（一）概述" class="headerlink" title="（一）概述"></a>（一）概述</h3><ul>
+<li>概念模型与逻辑模型对应关系表</li>
+</ul>
+<!-- TABLE ppt137-->
 
+<table>
+    <tr>
+        <th>概念模型</th> 
+        <td colspan="3">E-R模型</td>   
+        <td>EE-R模型</td> 
+        <td>面向对象模型</td> 
+        <td>谓词模型</td> 
+    </tr>
+    <tr>
+        <th>逻辑模型</th> 
+        <td>层次模型</td> 
+        <td>网状模型</td> 
+        <td>关系模型</td>
+        <td>对象关系模型</td>
+        <td>面向对象模型</td> 
+        <td>谓词模型</td>          
+    </tr>
+</table>
                 
               </div>
             
