@@ -36,7 +36,7 @@
 <meta property="og:image" content="http://example.com/img/posts/DB-2-11.jpg">
 <meta property="og:image" content="http://example.com/img/posts/DB-2-12.jpg">
 <meta property="article:published_time" content="2022-09-13T10:00:00.000Z">
-<meta property="article:modified_time" content="2022-09-20T05:31:30.416Z">
+<meta property="article:modified_time" content="2022-09-20T05:53:19.449Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="数据库">
 <meta name="twitter:card" content="summary_large_image">
@@ -244,7 +244,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.8k 字
+          4.9k 字
         
       </span>
     
@@ -255,7 +255,7 @@
         
         
         
-          32 分钟
+          41 分钟
         
       </span>
     
@@ -703,6 +703,119 @@
         <td>谓词模型</td>          
     </tr>
 </table>
+
+<h3 id="（二）关系模型与关系模型数据库系统"><a href="#（二）关系模型与关系模型数据库系统" class="headerlink" title="（二）关系模型与关系模型数据库系统"></a>（二）关系模型与关系模型数据库系统</h3><h4 id="1-关系模型（Relational-model）"><a href="#1-关系模型（Relational-model）" class="headerlink" title="1. 关系模型（Relational model）"></a>1. 关系模型（Relational model）</h4><ul>
+<li>关系模型的基本数据结构<ul>
+<li>二维表，简称<strong>表</strong>（Table）</li>
+</ul>
+</li>
+<li>关系模型的数据操纵<ul>
+<li>是建立在二维表上的操作，它包括对一张表及多张表间的查询，以及对一张表的删除，插入及修改等操作</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-二维表（Table）"><a href="#2-二维表（Table）" class="headerlink" title="2. 二维表（Table）"></a>2. 二维表（Table）</h4><ul>
+<li>二维表由表框架与元组所组成，表框架由若干个属性组成</li>
+<li>存放于框架内的每<strong>一行数据</strong>都被称为<strong>一个元组</strong>（Tuple）或称<strong>行</strong>（Row）</li>
+<li>一张二维表是由一个有 n 个属性的框架及 m 个元组组成</li>
+</ul>
+<h4 id="3-关系"><a href="#3-关系" class="headerlink" title="3. 关系"></a>3. 关系</h4><ul>
+<li>由行和列组成的二维表格</li>
+<li>关系的约束<ul>
+<li>同一表中的属性名各不相同</li>
+<li>表中的属性与属性的排放次序无关</li>
+<li>表中的元组均不相同</li>
+<li>表中的元组与元组的排列次序无关</li>
+<li>表中的每一分量必须是一个不可分割的基本数据项</li>
+</ul>
+</li>
+</ul>
+<h4 id="4-关系中的基本概念"><a href="#4-关系中的基本概念" class="headerlink" title="4. 关系中的基本概念"></a>4. 关系中的基本概念</h4><ul>
+<li>关系模式<ul>
+<li>一个关系的关系名及其属性名的集合构成该关系的关系模式</li>
+</ul>
+</li>
+<li>关系数据库模式<ul>
+<li>该关系数据库中所有关系的关系模式的集合</li>
+</ul>
+</li>
+<li>元组<ul>
+<li>关系中的每一行</li>
+</ul>
+</li>
+<li>关键字（或简称为<strong>键</strong>-key）<ul>
+<li>关系中的一个属性集的值能唯一标识关系中的一个元组，且又不含多余的属性值，则称该属性集为该关系的关键字</li>
+<li>每一个关系都有关键字</li>
+<li>一个关系也可以有多个关键字，所以关键字也被称为<strong>候选关键字</strong><ul>
+<li>主关键字<ul>
+<li>可以从关系的候选关键字中选取一个作为该关系的主关键字</li>
+</ul>
+</li>
+<li>外关键字<ul>
+<li>设关系 R 中的属性集 F 其取值来自于关系 S 中的主关键字 K 则称属性集 F 是关系 R 的外关键字</li>
+<li>关系 R 和关系 S 可以是同一个关系</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="5-关系模型上的数据操作"><a href="#5-关系模型上的数据操作" class="headerlink" title="5. 关系模型上的数据操作"></a>5. 关系模型上的数据操作</h4><ul>
+<li>关系模型数据操作的对象是<strong>关系</strong></li>
+<li>关系模型数据操作的结果也是一个<strong>关系</strong></li>
+<li>关系模型的五种基本操作：<ul>
+<li>属性指定</li>
+<li>元组选择</li>
+<li>关系的合并</li>
+<li>元组插入</li>
+<li>元组删除</li>
+</ul>
+</li>
+</ul>
+<h2 id="五、计算机世界与物理模型"><a href="#五、计算机世界与物理模型" class="headerlink" title="五、计算机世界与物理模型"></a>五、计算机世界与物理模型</h2><h4 id="1-物理模型"><a href="#1-物理模型" class="headerlink" title="1. 物理模型"></a>1. 物理模型</h4><ul>
+<li>物理模型是面向计算机的模型，它构作数据库系统的物理实现<ul>
+<li>主要涉及操作系统级文件组织，有时还会涉及到硬件级数据组织</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-文件系统的组成"><a href="#2-文件系统的组成" class="headerlink" title="2. 文件系统的组成"></a>2. 文件系统的组成</h4><ul>
+<li>项（Item）<ul>
+<li>文件系统中最小基本单位，项内符号是不能继续分割的</li>
+</ul>
+</li>
+<li>记录（Record）<ul>
+<li>由若干项组成，记录内的各项间有内在语义联系</li>
+<li>记录有型与值的区别</li>
+</ul>
+</li>
+<li>文件（file）<ul>
+<li>记录的集合</li>
+<li>一般来说，一个文件所包含的记录都是同型的</li>
+</ul>
+</li>
+<li>文件集（file set）<ul>
+<li>由若干个文件构成</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-提高文件读写操作效率的方法"><a href="#3-提高文件读写操作效率的方法" class="headerlink" title="3. 提高文件读写操作效率的方法"></a>3. 提高文件读写操作效率的方法</h4><ul>
+<li>索引（Index）<ul>
+<li>将文件中的记录与其物理地址（即磁盘块）间建立一张对应关系表以便于快速查找，这就是索引</li>
+<li>索引一般也是一个文件。当数据文件中的记录数很大时，索引文件本身也还需要建立索引，这叫二级索引</li>
+<li>依此类推，可以建立多级索引</li>
+</ul>
+</li>
+<li>Hash法<ul>
+<li>一种函数转换法，其主要思想是：通过一个hash函数将要查找的记录转换成该记录所在的物理地址，然后可以直接进行记录的定位读取操作</li>
+</ul>
+</li>
+<li>集簇（Cluster）<ul>
+<li>在记录查找中往往需要按某项的项值查找，将具有相同或相邻项值的记录聚集在相同磁盘块内或圆柱体内以减少读盘次数，提高查找速度，这被称为集簇</li>
+</ul>
+</li>
+</ul>
+
                 
               </div>
             
