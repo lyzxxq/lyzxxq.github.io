@@ -16,15 +16,15 @@
   <meta name="author" content="墨羽离弦">
   <meta name="keywords" content="">
   
-    <meta name="description" content="在C++中，vector是一个十分有用的容器，是一个能够存放任意类型的动态数组，能够增加和压缩数据。 vector的优点:（1）可将容器中元素翻转、复制元素、找到元素值对应的位置（2）迭代器可以按照不同的方式遍历容器（3）可在容器的末尾增加或删除元素（4）可在任意位置插入数据与数组相比，容器在自动处理容量的大小时会消耗更多的内存，但能很好的调整存储空间大小。 一. 基本操作(1) 头文件: #in">
+    <meta name="description" content="在C++中，vector是一个十分有用的容器，是一个能够存放任意类型的动态数组，能够增加和压缩数据。 vector的优点:（1）可将容器中元素翻转、复制元素、找到元素值对应的位置（2）迭代器可以按照不同的方式遍历容器（3）可在容器的末尾增加或删除元素（4）可在任意位置插入数据与数组相比，容器在自动处理容量的大小时会消耗更多的内存，但能很好的调整存储空间大小。 一. 基本操作1. 头文件:1#inc">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C++中vector使用方法">
 <meta property="og:url" content="http://example.com/2022/09/30/vector/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="在C++中，vector是一个十分有用的容器，是一个能够存放任意类型的动态数组，能够增加和压缩数据。 vector的优点:（1）可将容器中元素翻转、复制元素、找到元素值对应的位置（2）迭代器可以按照不同的方式遍历容器（3）可在容器的末尾增加或删除元素（4）可在任意位置插入数据与数组相比，容器在自动处理容量的大小时会消耗更多的内存，但能很好的调整存储空间大小。 一. 基本操作(1) 头文件: #in">
+<meta property="og:description" content="在C++中，vector是一个十分有用的容器，是一个能够存放任意类型的动态数组，能够增加和压缩数据。 vector的优点:（1）可将容器中元素翻转、复制元素、找到元素值对应的位置（2）迭代器可以按照不同的方式遍历容器（3）可在容器的末尾增加或删除元素（4）可在任意位置插入数据与数组相比，容器在自动处理容量的大小时会消耗更多的内存，但能很好的调整存储空间大小。 一. 基本操作1. 头文件:1#inc">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-09-29T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-09-29T15:54:26.655Z">
+<meta property="article:modified_time" content="2022-09-29T16:18:01.996Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="C++">
 <meta name="twitter:card" content="summary_large_image">
@@ -231,7 +231,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.4k 字
+          2.2k 字
         
       </span>
     
@@ -242,7 +242,7 @@
         
         
         
-          21 分钟
+          19 分钟
         
       </span>
     
@@ -287,26 +287,53 @@
                 
                 <p>在C++中，vector是一个十分有用的容器，是一个能够存放任意类型的动态数组，能够增加和压缩数据。</p>
 <p><strong>vector的优点</strong>:<br>（1）可将容器中元素翻转、复制元素、找到元素值对应的位置<br>（2）迭代器可以按照不同的方式遍历容器<br>（3）可在容器的末尾增加或删除元素<br>（4）可在任意位置插入数据<br>与数组相比，容器在自动处理容量的大小时会消耗更多的内存，但能很好的调整存储空间大小。</p>
-<h2 id="一-基本操作"><a href="#一-基本操作" class="headerlink" title="一. 基本操作"></a>一. 基本操作</h2><p>(1) 头文件:</p>
-<p>#include<vector><br>1<br>(2) 创建vector对象:</p>
-<p>vector<int> array;<br>1<br>(3) 向量尾部插入&#x2F;删除元素：</p>
-<p>array.push_back(a); &#x2F;&#x2F;尾部插入数字a<br>array.pop_back(); &#x2F;&#x2F;删除向量的最后一个元素<br>1<br>2<br>(4) 使用下标访问元素:</p>
-<p>array[0],array[1]……array[n]<br>array.at(i) &#x2F;&#x2F;使用at(),当这个函数越界时会抛出一个异常<br>1<br>2<br>(5) 使用迭代器访问元素:</p>
-<p>vector<int>::iterator it;<br>for(it&#x3D;array.begin();it!&#x3D;array.end();it++)<br>    cout&lt;&lt;*it&lt;&lt;endl;<br>1<br>2<br>3<br>(6) 插入元素：</p>
-<p>array.insert(array.begin()+i,a); &#x2F;&#x2F;在第i+1个元素前面插入a;<br>1<br>(7) 删除元素：</p>
-<p>array.erase(array.begin()+2); &#x2F;&#x2F;删除第3个元素<br>array.erase(array.begin()+i,array.end()+j); &#x2F;&#x2F;删除区间[i,j-1],区间从0开始<br>1<br>2<br>(8) 向量大小: array.size();<br>(9) 清空: array.clear();<br>(10) 判空：</p>
-<p>array.empty(); &#x2F;&#x2F;当元素个数为0时返回true，否则为false<br>1<br>(11) 返回最后一个元素：array.back();<br>(12) 返回第一个元素：array.front();<br>(13) 返回内存中总共可以容纳的元素个数：array.capacity();<br>(14) 调整元素个数：</p>
-<p>a.resize(10); &#x2F;&#x2F;将a的现有元素个数调至10个，多则删，少则补，其值随机<br>a.resize(10,2); &#x2F;&#x2F;将a的现有元素个数调至10个，多则删，少则补，其值为2<br>1<br>2<br>(15）扩充容量：</p>
-<p>a.reserve(100); &#x2F;&#x2F;将a的容量（capacity）扩充至100<br>1<br>(16）两向量交换：</p>
-<p>a.swap(b); &#x2F;&#x2F;将a中的元素和b中的元素进行整体性交换<br>1<br>(17）向量的比较：</p>
-<p>向量的比较操作 &#x3D;&#x3D; !&#x3D; &gt;&#x3D; &lt;&#x3D; &gt; &lt;<br>a&#x3D;&#x3D;b;<br>1<br>2<br>重要说明：vector的元素不仅仅可以是int,double,string,还可以是结构体，但是要注意：结构体要定义为全局的，否则会出错。&gt;重要说明：vector的元素不仅仅可以是int,double,string,还可以是结构体，但是要注意：结构体要定义为全局的，否则会出错。</p>
-<h2 id="二-算法"><a href="#二-算法" class="headerlink" title="二. 算法"></a>二. 算法</h2><p>注意：进行如下操作需要加头文件</p>
-<p>#include<algorithm><br>1<br>(1) 使用reverse将元素翻转：</p>
-<p>reverse(array.begin(),array.end()); &#x2F;&#x2F;将元素翻转，即逆序排列<br>1<br>注：在vector中，如果一个函数中需要两个迭代器，一般后一个都不包含.</p>
-<p>(2) 使用sort排序：<br>默认升序：sort(array.begin(),array.end());<br>降序则调用: sort(array.begin(),array.end(),Comp);</p>
-<p>bool Comp(const int &amp;a,const int &amp;b)<br>{<br>    return a&gt;b;<br>}<br>1<br>2<br>3<br>4<br>(3) 复制向量的元素：</p>
-<p>copy(a.begin(),a.end(),b.begin()+1);<br>&#x2F;&#x2F;把a中的从a.begin()（包括它）到a.end()（不包括它）的元素复制到b中，从b.begin()+1的位置（包括它）开始复制，覆盖掉原有元素<br>1<br>2<br>(4) 查找元素的位置：</p>
-<p>find(a.begin(),a.end(),10);<br>&#x2F;&#x2F;在a中的从a.begin()（包括它）到a.end()（不包括它）的元素中查找10，若存在返回其在向量中的位置<br>1<br>2</p>
+<h2 id="一-基本操作"><a href="#一-基本操作" class="headerlink" title="一. 基本操作"></a>一. 基本操作</h2><h3 id="1-头文件"><a href="#1-头文件" class="headerlink" title="1. 头文件:"></a>1. 头文件:</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;vector&gt;</span></span><br></code></pre></td></tr></table></figure>
+
+<h3 id="2-创建vector对象"><a href="#2-创建vector对象" class="headerlink" title="2. 创建vector对象:"></a>2. 创建vector对象:</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">vector&lt;<span class="hljs-type">int</span>&gt; array;<br></code></pre></td></tr></table></figure>
+
+<h3 id="3-向量尾部插入-x2F-删除元素："><a href="#3-向量尾部插入-x2F-删除元素：" class="headerlink" title="3. 向量尾部插入&#x2F;删除元素："></a>3. 向量尾部插入&#x2F;删除元素：</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp">array.<span class="hljs-built_in">push_back</span>(a); <span class="hljs-comment">//尾部插入数字a</span><br>array.<span class="hljs-built_in">pop_back</span>(); <span class="hljs-comment">//删除向量的最后一个元素</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="4-使用下标访问元素"><a href="#4-使用下标访问元素" class="headerlink" title="4. 使用下标访问元素:"></a>4. 使用下标访问元素:</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp">array[<span class="hljs-number">0</span>],array[<span class="hljs-number">1</span>]......array[n]<br>array.<span class="hljs-built_in">at</span>(i) <span class="hljs-comment">//使用at(),当这个函数越界时会抛出一个异常</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="5-使用迭代器访问元素"><a href="#5-使用迭代器访问元素" class="headerlink" title="5. 使用迭代器访问元素:"></a>5. 使用迭代器访问元素:</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cpp">vector&lt;<span class="hljs-type">int</span>&gt;::iterator it;<br><span class="hljs-keyword">for</span>(it=array.<span class="hljs-built_in">begin</span>();it!=array.<span class="hljs-built_in">end</span>();it++)<br>    cout&lt;&lt;*it&lt;&lt;endl;<br></code></pre></td></tr></table></figure>
+
+<h3 id="6-插入元素："><a href="#6-插入元素：" class="headerlink" title="6. 插入元素："></a>6. 插入元素：</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">array.<span class="hljs-built_in">insert</span>(array.<span class="hljs-built_in">begin</span>()+i,a); <span class="hljs-comment">//在第i+1个元素前面插入a;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="7-删除元素："><a href="#7-删除元素：" class="headerlink" title="7. 删除元素："></a>7. 删除元素：</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp">array.<span class="hljs-built_in">erase</span>(array.<span class="hljs-built_in">begin</span>()+<span class="hljs-number">2</span>); <span class="hljs-comment">//删除第3个元素</span><br>array.<span class="hljs-built_in">erase</span>(array.<span class="hljs-built_in">begin</span>()+i,array.<span class="hljs-built_in">end</span>()+j); <span class="hljs-comment">//删除区间[i,j-1],区间从0开始</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="8-向量大小"><a href="#8-向量大小" class="headerlink" title="8. 向量大小:"></a>8. 向量大小:</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">array.<span class="hljs-built_in">size</span>();<br></code></pre></td></tr></table></figure>
+
+<h3 id="9-清空"><a href="#9-清空" class="headerlink" title="9. 清空:"></a>9. 清空:</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">array.<span class="hljs-built_in">clear</span>();<br></code></pre></td></tr></table></figure>
+
+<h3 id="10-判空："><a href="#10-判空：" class="headerlink" title="10. 判空："></a>10. 判空：</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">array.<span class="hljs-built_in">empty</span>(); <span class="hljs-comment">//当元素个数为0时返回true，否则为false</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="11-返回最后一个元素："><a href="#11-返回最后一个元素：" class="headerlink" title="11. 返回最后一个元素："></a>11. 返回最后一个元素：</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">array.<span class="hljs-built_in">back</span>();<br></code></pre></td></tr></table></figure>
+
+<h3 id="12-返回第一个元素："><a href="#12-返回第一个元素：" class="headerlink" title="12. 返回第一个元素："></a>12. 返回第一个元素：</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">array.<span class="hljs-built_in">front</span>();<br></code></pre></td></tr></table></figure>
+
+<h3 id="13-返回内存中总共可以容纳的元素个数："><a href="#13-返回内存中总共可以容纳的元素个数：" class="headerlink" title="13. 返回内存中总共可以容纳的元素个数："></a>13. 返回内存中总共可以容纳的元素个数：</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">array.<span class="hljs-built_in">capacity</span>();<br></code></pre></td></tr></table></figure>
+
+<h3 id="14-调整元素个数："><a href="#14-调整元素个数：" class="headerlink" title="14. 调整元素个数："></a>14. 调整元素个数：</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp">a.<span class="hljs-built_in">resize</span>(<span class="hljs-number">10</span>); <span class="hljs-comment">//将a的现有元素个数调至10个，多则删，少则补，其值随机</span><br>a.<span class="hljs-built_in">resize</span>(<span class="hljs-number">10</span>,<span class="hljs-number">2</span>); <span class="hljs-comment">//将a的现有元素个数调至10个，多则删，少则补，其值为2</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="15-扩充容量："><a href="#15-扩充容量：" class="headerlink" title="15. 扩充容量："></a>15. 扩充容量：</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">a.<span class="hljs-built_in">reserve</span>(<span class="hljs-number">100</span>); <span class="hljs-comment">//将a的容量（capacity）扩充至100</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="16-两向量交换："><a href="#16-两向量交换：" class="headerlink" title="16. 两向量交换："></a>16. 两向量交换：</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">a.<span class="hljs-built_in">swap</span>(b); <span class="hljs-comment">//将a中的元素和b中的元素进行整体性交换</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="17-向量的比较："><a href="#17-向量的比较：" class="headerlink" title="17. 向量的比较："></a>17. 向量的比较：</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp">向量的比较操作 == != &gt;= &lt;= &gt; &lt;  <br>a==b;<br></code></pre></td></tr></table></figure>
+
+<p><strong>重要说明</strong>：vector的元素不仅仅可以是int,double,string,还可以是结构体，但是要注意：结构体要定义为全局的，否则会出错。</p>
+<h2 id="二-算法"><a href="#二-算法" class="headerlink" title="二. 算法"></a>二. 算法</h2><p><strong>注意</strong>：进行如下操作需要加头文件</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;algorithm&gt;</span></span><br></code></pre></td></tr></table></figure>
+
+<h3 id="1-使用reverse将元素翻转："><a href="#1-使用reverse将元素翻转：" class="headerlink" title="1. 使用reverse将元素翻转："></a>1. 使用reverse将元素翻转：</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-built_in">reverse</span>(array.<span class="hljs-built_in">begin</span>(),array.<span class="hljs-built_in">end</span>()); <span class="hljs-comment">//将元素翻转，即逆序排列</span><br></code></pre></td></tr></table></figure>
+
+<p>注：在vector中，如果一个函数中需要两个迭代器，一般后一个都不包含.</p>
+<h3 id="2-使用sort排序："><a href="#2-使用sort排序：" class="headerlink" title="2. 使用sort排序："></a>2. 使用sort排序：</h3><p>默认升序：<code>cpp sort(array.begin(),array.end());</code><br>降序则调用: <code>cpp sort(array.begin(),array.end(),Comp);</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">Comp</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">int</span> &amp;a,<span class="hljs-type">const</span> <span class="hljs-type">int</span> &amp;b)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">return</span> a&gt;b;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="3-复制向量的元素："><a href="#3-复制向量的元素：" class="headerlink" title="3. 复制向量的元素："></a>3. 复制向量的元素：</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-built_in">copy</span>(a.<span class="hljs-built_in">begin</span>(),a.<span class="hljs-built_in">end</span>(),b.<span class="hljs-built_in">begin</span>()+<span class="hljs-number">1</span>); <br><span class="hljs-comment">//把a中的从a.begin()（包括它）到a.end()（不包括它）的元素复制到b中，从b.begin()+1的位置（包括它）开始复制，覆盖掉原有元素</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="4-查找元素的位置："><a href="#4-查找元素的位置：" class="headerlink" title="4. 查找元素的位置："></a>4. 查找元素的位置：</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-built_in">find</span>(a.<span class="hljs-built_in">begin</span>(),a.<span class="hljs-built_in">end</span>(),<span class="hljs-number">10</span>); <br><span class="hljs-comment">//在a中的从a.begin()（包括它）到a.end()（不包括它）的元素中查找10，若存在返回其在向量中的位置</span><br></code></pre></td></tr></table></figure>
+
 <h2 id="三-输出vector的中的元素（三种方法）"><a href="#三-输出vector的中的元素（三种方法）" class="headerlink" title="三. 输出vector的中的元素（三种方法）"></a>三. 输出vector的中的元素（三种方法）</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs cpp">vector&lt;<span class="hljs-type">float</span>&gt; vecClass; <br><span class="hljs-type">int</span> nSize = vecClass.<span class="hljs-built_in">size</span>();   <br><span class="hljs-comment">//方法一（下标方式）打印vecClass </span><br><span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;nSize;i++)    <br>&#123;    <br>   cout&lt;&lt;vecClass[i]&lt;&lt;<span class="hljs-string">&quot;     &quot;</span>;    <br>&#125;    <br>cout&lt;&lt;endl;   <br><span class="hljs-comment">//方法二（下标方式）打印vecClass     </span><br><span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;nSize;i++)    <br>&#123;    <br>   cout&lt;&lt;vecClass.<span class="hljs-built_in">at</span>(i)&lt;&lt;<span class="hljs-string">&quot;     &quot;</span>;    <br>&#125;    <br>cout&lt;&lt;endl;    <br><span class="hljs-comment">//方法三（遍历器方式）打印vecClass：输出某一指定的数值时不方便</span><br><span class="hljs-keyword">for</span>(vector&lt;<span class="hljs-type">float</span>&gt;::iterator it = vecClass.<span class="hljs-built_in">begin</span>();it!=vecClass.<span class="hljs-built_in">end</span>();it++)    <br>&#123;    <br>    cout&lt;&lt;*it&lt;&lt;<span class="hljs-string">&quot;   &quot;</span>;    <br>&#125;    <br>cout&lt;&lt;endl;    <br></code></pre></td></tr></table></figure>
                 
               </div>
@@ -399,8 +426,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/09/13/database_note_3/" title="数据库概论三：关系数据库系统">
-                        <span class="hidden-mobile">数据库概论三：关系数据库系统</span>
+                      <a href="/2022/09/13/database_note_2/" title="数据库概论二：数据模型">
+                        <span class="hidden-mobile">数据库概论二：数据模型</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
