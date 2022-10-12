@@ -30,8 +30,10 @@
 <meta property="og:image" content="http://example.com/img/posts/AP-1-5.png">
 <meta property="og:image" content="http://example.com/img/posts/AP-1-6.png">
 <meta property="og:image" content="http://example.com/img/posts/AP-1-7.png">
+<meta property="og:image" content="http://example.com/img/posts/AP-1-8.png">
+<meta property="og:image" content="http://example.com/img/posts/AP-1-9.png">
 <meta property="article:published_time" content="2022-09-07T11:00:00.000Z">
-<meta property="article:modified_time" content="2022-09-27T07:14:32.463Z">
+<meta property="article:modified_time" content="2022-10-05T18:00:31.302Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="高级程序设计">
 <meta name="twitter:card" content="summary_large_image">
@@ -239,7 +241,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          15k 字
+          17k 字
         
       </span>
     
@@ -250,7 +252,7 @@
         
         
         
-          122 分钟
+          146 分钟
         
       </span>
     
@@ -644,7 +646,7 @@
 </ul>
 </li>
 </ul>
-<h2 id="四、构造函数与析构函数"><a href="#四、构造函数与析构函数" class="headerlink" title="四、构造函数与析构函数"></a>四、构造函数与析构函数</h2><h3 id="（一）构造函数"><a href="#（一）构造函数" class="headerlink" title="（一）构造函数"></a>（一）构造函数</h3><h4 id="1-对象的初始化——构造函数"><a href="#1-对象的初始化——构造函数" class="headerlink" title="1. 对象的初始化——构造函数"></a>1. 对象的初始化——构造函数</h4><ul>
+<h2 id="四、对象的初始化和消亡前处理"><a href="#四、对象的初始化和消亡前处理" class="headerlink" title="四、对象的初始化和消亡前处理"></a>四、对象的初始化和消亡前处理</h2><h3 id="（一）构造函数"><a href="#（一）构造函数" class="headerlink" title="（一）构造函数"></a>（一）构造函数</h3><h4 id="1-对象的初始化——构造函数"><a href="#1-对象的初始化——构造函数" class="headerlink" title="1. 对象的初始化——构造函数"></a>1. 对象的初始化——构造函数</h4><ul>
 <li><p>当一个对象创建时，它将获得一块存储空间，该存储空间用于存储对象的数据成员。在使用对象前，需要对对象存储空间中的数据成员进行初始化。</p>
 </li>
 <li><p>C++提供了一种对象初始化的机制：<strong>构造函数</strong></p>
@@ -731,6 +733,71 @@
 </li>
 </ul>
 </li>
+</ul>
+<h3 id="（四）拷贝构造函数"><a href="#（四）拷贝构造函数" class="headerlink" title="（四）拷贝构造函数"></a>（四）拷贝构造函数</h3><h4 id="1-拷贝构造函数"><a href="#1-拷贝构造函数" class="headerlink" title="1. 拷贝构造函数"></a>1. 拷贝构造函数</h4><ul>
+<li><p>若一个构造函数的参数类型为<strong>本类的引用</strong>，则称它为<strong>拷贝构造函数</strong>。例如：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span><br>&#123;<br>......<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-built_in">A</span>();  <span class="hljs-comment">//默认构造函数</span><br>	<span class="hljs-built_in">A</span>(<span class="hljs-type">const</span> A&amp; a);  <span class="hljs-comment">//拷贝构造函数</span><br>&#125;; <br></code></pre></td></tr></table></figure>
+</li>
+<li><p>在创建一个对象时，若用另一个同类型的对象对其初始化，将会调用对象类中的拷贝构造函数。</p>
+</li>
+<li><p>在三种情况下，会调用类的拷贝构造函数：</p>
+<ul>
+<li>创建对象时显式指出。例如：<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp">A a1; <br><span class="hljs-function">A <span class="hljs-title">a2</span><span class="hljs-params">(a1)</span></span>;  <span class="hljs-comment">//创建对象a2，用对象a1初始化对象a2</span><br></code></pre></td></tr></table></figure></li>
+<li>把对象作为值参数传给函数时。例如：<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">f</span><span class="hljs-params">(A x)</span> </span>&#123; ...... &#125;;<br>......<br>A a;<br><span class="hljs-built_in">f</span>(a);  <span class="hljs-comment">//创建形参对象x，用对象a对x进行初始化。</span><br></code></pre></td></tr></table></figure></li>
+<li>把对象作为函数的返回值时。例如：<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">A <span class="hljs-title">f</span><span class="hljs-params">()</span> </span><br><span class="hljs-function"></span>&#123;<br>	A a;<br>	......<br>	<span class="hljs-keyword">return</span> a; <span class="hljs-comment">//创建一个临时对象，用对象a对创建的临时对象进行初始化。</span><br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h4 id="2-隐式拷贝构造函数"><a href="#2-隐式拷贝构造函数" class="headerlink" title="2. 隐式拷贝构造函数"></a>2. 隐式拷贝构造函数</h4><ul>
+<li>在程序中，如果没有为某个类提供拷贝构造函数，则编译器将会为其生成一个<strong>隐式拷贝构造函数</strong>。</li>
+<li>隐式拷贝构造函数将<strong>逐个成员</strong>进行拷贝初始化<ul>
+<li>对于非对象成员：它采用通常的拷贝操作；</li>
+<li>对于成员对象：则调用成员对象类的<strong>拷贝构造函数</strong>来对成员对象进行初始化。（<strong>递归定义</strong>）<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span><br>&#123;	<br>	<span class="hljs-type">int</span> x,y;<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-built_in">A</span>() &#123; x = y = <span class="hljs-number">0</span>; &#125;<br>	......<br>&#125;;<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">B</span><br>&#123;<br>	<span class="hljs-type">int</span> z;<br>	A a;<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-built_in">B</span>() &#123; z = <span class="hljs-number">0</span>; &#125;<br>	...... <span class="hljs-comment">//其中没有定义拷贝构造函数</span><br>&#125;;<br>...<br>B b1; <span class="hljs-comment">//b1.z以及b1.a.x和b1.a.y均为0。</span><br><span class="hljs-function">B <span class="hljs-title">b2</span><span class="hljs-params">(b1)</span></span>; <span class="hljs-comment">//b2.z初始化成b1.z；</span><br>		      <span class="hljs-comment">//调用A的拷贝构造函数用b1.a对b2.a初始化</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h4 id="3-自定义拷贝构造函数"><a href="#3-自定义拷贝构造函数" class="headerlink" title="3. 自定义拷贝构造函数"></a>3. 自定义拷贝构造函数</h4><ul>
+<li><p>一般情况下，编译程序提供的隐式拷贝构造函数的行为足以满足要求，类中不需要自定义拷贝构造函数。</p>
+</li>
+<li><p>但在<strong>某些情况</strong>下，必须要自定义拷贝构造函数，否则，将会产生设计者未意识到的严重的程序错误。 </p>
+</li>
+<li><p>例如，在下面的类中没有自定义拷贝构造函数：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">class</span> <span class="hljs-title class_">String</span><br>&#123;<br>	<span class="hljs-type">int</span> len;<br>	<span class="hljs-type">char</span> *str;<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-built_in">String</span>(<span class="hljs-type">char</span> *s) <br>	&#123;<br>		len = <span class="hljs-built_in">strlen</span>(s); <br>		str = <span class="hljs-keyword">new</span> <span class="hljs-type">char</span>[len+<span class="hljs-number">1</span>]; <br>		<span class="hljs-built_in">strcpy</span>(str,s); <br>	&#125;<br>	~<span class="hljs-built_in">String</span>() &#123; <span class="hljs-keyword">delete</span> []str; len=<span class="hljs-number">0</span>; str=<span class="hljs-literal">NULL</span>; &#125;<br>&#125;;<br>......<br><span class="hljs-function">String <span class="hljs-title">s1</span><span class="hljs-params">(<span class="hljs-string">&quot;abcd&quot;</span>)</span></span>;<br><span class="hljs-function">String <span class="hljs-title">s2</span><span class="hljs-params">(s1)</span></span>;<br></code></pre></td></tr></table></figure></li>
+<li><p>系统提供的隐式拷贝构造函数将会使得s1和s2的成员指针str<strong>指向同一块内存区域</strong>！</p>
+ <div align=center><img src="/img/posts/AP-1-8.png" srcset="/img/loading.gif" lazyload title="" height="50%" width="50%" /></div>
+</li>
+<li><p>它带来的问题是：</p>
+<ul>
+<li>如果对一个对象（s1或s2）操作之后修改了这块空间的内容，则另一个对象将会受到影响。如果不是设计者特意所为，这将是一个隐藏的错误。</li>
+<li>当对象s1和s2消亡时，将会分别去调用它们的析构函数，这会使得同一块内存区域将被归还两次，从而导致程序运行错误。</li>
+<li>当对象s1和s2中有一个消亡，另一个还没消亡时，则会出现使用已被归还的空间问题。</li>
+</ul>
+</li>
+<li><p>隐式拷贝构造函数实现的是一种<strong>浅拷贝</strong>（shallow copy），为了解决上面的问题，可以在类String中显式定义一个拷贝构造函数来实现<strong>深拷贝</strong>（deep copy）</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp">String::<span class="hljs-built_in">String</span>(<span class="hljs-type">const</span> String&amp; s)<br>&#123;	len = s.len;<br>	str = <span class="hljs-keyword">new</span> <span class="hljs-type">char</span>[len+<span class="hljs-number">1</span>];<br>	<span class="hljs-built_in">strcpy</span>(str,s.str);<br>&#125;<br></code></pre></td></tr></table></figure>
+ <div align=center><img src="/img/posts/AP-1-9.png" srcset="/img/loading.gif" lazyload title="" height="100%" width="100%" /></div>
+</li>
+<li><p><strong>注意</strong>：自定义的拷贝构造函数默认调用的是成员对象类的<strong>默认构造函数</strong>来对成员对象初始化！</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span><br>&#123;<br>	<span class="hljs-type">int</span> x,y;<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-built_in">A</span>() &#123; x = y = <span class="hljs-number">0</span>; &#125;<br>	<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">inc</span><span class="hljs-params">()</span> </span>&#123; x++; y++; &#125;<br>&#125;;<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">B</span><br>&#123;<br>    <span class="hljs-type">int</span> z;<br>	A a;<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-built_in">B</span>() &#123; z = <span class="hljs-number">0</span>; &#125;<br>	<span class="hljs-built_in">B</span>(<span class="hljs-type">const</span> B&amp; b)   &#123; z = b.z; &#125;<br>	<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">inc</span><span class="hljs-params">()</span> </span>&#123; z++; a.<span class="hljs-built_in">inc</span>(); &#125;<br>&#125;;<br>...<br>B b1;  /b1.z、b1.a.x和b1.a.y均为<span class="hljs-number">0</span><br>b1.<span class="hljs-built_in">inc</span>();  <span class="hljs-comment">//b1.z、b1.a.x和b1.a.y均变成了1</span><br><span class="hljs-function">B <span class="hljs-title">b2</span><span class="hljs-params">(b1)</span></span>; <span class="hljs-comment">//b2.z为1，b2.a.x和b2.a.y均为0</span><br></code></pre></td></tr></table></figure></li>
+<li><p>若要保证b2与b1一致，则应在B类的拷贝构造函数的成员初始化表中显式指出：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-built_in">B</span>(<span class="hljs-type">const</span> B&amp; b): <span class="hljs-built_in">a</span>(b.a)  &#123; z = b.z; &#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>下面对b2.a进行赋值初始化与拷贝构造的区别是什么？</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> &#123; ...... &#125;;<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">B</span><br>&#123;<br>	<span class="hljs-type">int</span> z;<br>	A a;<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-built_in">B</span>() &#123; ...... &#125;<br>	<span class="hljs-built_in">B</span>(<span class="hljs-type">const</span> B&amp; b)   <span class="hljs-comment">//这里还要调用A的默认构造函数对a初始化！</span><br>	&#123;<br>		z = b.z;<br>		a = b.a;   <span class="hljs-comment">//这里是调用A的赋值操作给a赋值</span><br>	&#125;<br>	......<br>&#125;;<br>B b1;<br><span class="hljs-function">B <span class="hljs-title">b2</span><span class="hljs-params">(b1)</span></span>;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="五、静态成员与友元"><a href="#五、静态成员与友元" class="headerlink" title="五、静态成员与友元"></a>五、静态成员与友元</h2><h3 id="（一）常成员函数及静态成员"><a href="#（一）常成员函数及静态成员" class="headerlink" title="（一）常成员函数及静态成员"></a>（一）常成员函数及静态成员</h3><h4 id="1-获取vs改变对象的状态"><a href="#1-获取vs改变对象的状态" class="headerlink" title="1. 获取vs改变对象的状态"></a>1. 获取vs改变对象的状态</h4><ul>
+<li>在程序运行的不同时刻，一个对象可能会处于不同的状态（由对象的数据成员的值来体现）。</li>
+<li>可以把类中的成员函数分成两类：<ul>
+<li>获取对象状态（不改变数据成员的值）</li>
+<li>改变对象状态（改变数据成员的值）</li>
+</ul>
+</li>
+<li>例如<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Date</span><br>&#123;	<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">set</span><span class="hljs-params">(<span class="hljs-type">int</span> y, <span class="hljs-type">int</span> m, <span class="hljs-type">int</span> d)</span></span>; <span class="hljs-comment">//改变对象状态</span><br>	<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">get_day</span><span class="hljs-params">()</span></span>; <span class="hljs-comment">//获取对象状态</span><br>	<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">get_month</span><span class="hljs-params">()</span></span>; <span class="hljs-comment">//获取对象状态</span><br>	<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">get_year</span><span class="hljs-params">()</span></span>; <span class="hljs-comment">//获取对象状态</span><br>	......<br>&#125;; <br></code></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="2-常成员函数"><a href="#2-常成员函数" class="headerlink" title="2. 常成员函数"></a>2. 常成员函数</h4><ul>
+<li>为了防止在一个获取对象状态的成员函数中无意中修改对象的数据成员，可以把它说明成常成员函数。例如，<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Date</span><br>&#123;<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">set</span><span class="hljs-params">(<span class="hljs-type">int</span> y, <span class="hljs-type">int</span> m, <span class="hljs-type">int</span> d)</span></span>; <br>	<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">get_day</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>; <span class="hljs-comment">//常成员函数</span><br>	<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">get_month</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>; <span class="hljs-comment">//常成员函数</span><br>	<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">get_year</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>; <span class="hljs-comment">//常成员函数</span><br>	......<br>&#125;; <br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">Date::get_year</span><span class="hljs-params">()</span> <span class="hljs-type">const</span> </span>&#123; <span class="hljs-keyword">return</span> year; &#125;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">Date::get_day</span><span class="hljs-params">()</span> <span class="hljs-type">const</span> </span>&#123; <span class="hljs-keyword">return</span> day; &#125;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">Date::get_month</span><span class="hljs-params">()</span> <span class="hljs-type">const</span> </span>&#123; <span class="hljs-keyword">return</span> month; &#125;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">Date::set</span><span class="hljs-params">(<span class="hljs-type">int</span> y, <span class="hljs-type">int</span> m, <span class="hljs-type">int</span> d)</span> </span>&#123; year=y; month=m; day=d; &#125;<br></code></pre></td></tr></table></figure></li>
+<li>编译器一旦发现在常成员函数中修改数据成员的值，将会报错！</li>
+<li></li>
 </ul>
 
                 
