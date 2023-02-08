@@ -1,0 +1,804 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="墨羽离弦">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="一、继承的基本概念（一）软件复用1. 概念 在开发一个新软件时，把现有软件或软件的一部分拿过来用称为软件复用。  2. 解决已有软件与新软件功能差别的方法 修改已有软件的源代码 缺点：需读懂源代码，可靠性差、易出错，有时源代码难以获得   函数库 缺点：除了一些最基本的函数（如数学函数），已有软件的函数不是为新软件设计的，常常不完全符合新软件的功能要求。    （二）继承的基本概念1. 概念 在定">
+<meta property="og:type" content="article">
+<meta property="og:title" content="高级程序设计二：继承——派生类">
+<meta property="og:url" content="http://example.com/2022/10/12/AP2/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="一、继承的基本概念（一）软件复用1. 概念 在开发一个新软件时，把现有软件或软件的一部分拿过来用称为软件复用。  2. 解决已有软件与新软件功能差别的方法 修改已有软件的源代码 缺点：需读懂源代码，可靠性差、易出错，有时源代码难以获得   函数库 缺点：除了一些最基本的函数（如数学函数），已有软件的函数不是为新软件设计的，常常不完全符合新软件的功能要求。    （二）继承的基本概念1. 概念 在定">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/posts/AP-2-1.png">
+<meta property="og:image" content="http://example.com/img/posts/AP-2-2.png">
+<meta property="article:published_time" content="2022-10-12T02:00:00.000Z">
+<meta property="article:modified_time" content="2022-10-12T03:56:02.780Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="高级程序设计">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/posts/AP-2-1.png">
+  
+  
+  
+  <title>高级程序设计二：继承——派生类 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>墨羽离弦</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="高级程序设计二：继承——派生类"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-10-12 10:00" pubdate>
+          2022年10月12日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          28 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">高级程序设计二：继承——派生类</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="一、继承的基本概念"><a href="#一、继承的基本概念" class="headerlink" title="一、继承的基本概念"></a>一、继承的基本概念</h2><h3 id="（一）软件复用"><a href="#（一）软件复用" class="headerlink" title="（一）软件复用"></a>（一）软件复用</h3><h4 id="1-概念"><a href="#1-概念" class="headerlink" title="1. 概念"></a>1. 概念</h4><ul>
+<li>在开发一个新软件时，把现有软件或软件的一部分拿过来用称为<strong>软件复用</strong>。</li>
+</ul>
+<h4 id="2-解决已有软件与新软件功能差别的方法"><a href="#2-解决已有软件与新软件功能差别的方法" class="headerlink" title="2. 解决已有软件与新软件功能差别的方法"></a>2. 解决已有软件与新软件功能差别的方法</h4><ul>
+<li>修改已有软件的源代码<ul>
+<li>缺点：需读懂源代码，可靠性差、易出错，有时源代码难以获得</li>
+</ul>
+</li>
+<li>函数库<ul>
+<li>缺点：除了一些最基本的函数（如数学函数），已有软件的函数不是为新软件设计的，常常不完全符合新软件的功能要求。</li>
+</ul>
+</li>
+</ul>
+<h3 id="（二）继承的基本概念"><a href="#（二）继承的基本概念" class="headerlink" title="（二）继承的基本概念"></a>（二）继承的基本概念</h3><h4 id="1-概念-1"><a href="#1-概念-1" class="headerlink" title="1. 概念"></a>1. 概念</h4><ul>
+<li>在定义一个新的类时，先把已有的一个或多个类的功能全部包含进来，然后再在新的类中给出新功能的定义或对已有类的某些功能进行重新定义，这个机制称为继承（Inheritance）。</li>
+<li>继承不需要已有软件的源代码，属于目标代码复用！</li>
+</ul>
+<h4 id="2-基类与派生类"><a href="#2-基类与派生类" class="headerlink" title="2. 基类与派生类"></a>2. 基类与派生类</h4><ul>
+<li>继承关系中存在着两个类：<strong>基类（父类）</strong>和<strong>派生类（子类）</strong>。</li>
+<li>派生类拥有<strong>基类的所有成员</strong>，并可以<ul>
+<li>定义<strong>新成员</strong></li>
+<li>对基类的一些成员（成员函数）进行<strong>重定义</strong>（override）。</li>
+</ul>
+</li>
+<li>继承分为<strong>单继承</strong>和<strong>多继承</strong><ul>
+<li>单继承：一个类只有<strong>一个直接基类</strong></li>
+<li>多继承：一个类有<strong>多个直接基类</strong><br>  <img src="/img/posts/AP-2-1.png" srcset="/img/loading.gif" lazyload alt="这是图片" title="单继承与多继承"></li>
+</ul>
+</li>
+</ul>
+<h4 id="3-继承对程序设计的支持"><a href="#3-继承对程序设计的支持" class="headerlink" title="3. 继承对程序设计的支持"></a>3. 继承对程序设计的支持</h4><ul>
+<li>继承机制除了支持软件复用外，它还具有下面的作用： <ul>
+<li>对处理的对象按层次进行分类<ul>
+<li>有利于问题的描述和解决</li>
+</ul>
+</li>
+<li>对概念进行组合<ul>
+<li>给新类的设计进一步带来便利</li>
+</ul>
+</li>
+<li>支持软件的增量开发（版本升级）<ul>
+<li>这给软件开发和维护带来便利</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="（三）单继承"><a href="#（三）单继承" class="headerlink" title="（三）单继承"></a>（三）单继承</h3><h4 id="1-单继承派生类的定义"><a href="#1-单继承派生类的定义" class="headerlink" title="1. 单继承派生类的定义"></a>1. 单继承派生类的定义</h4><ul>
+<li><p>在定义单继承时，派生类只能有一个<strong>直接基类</strong>，其定义格式如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">class</span> &lt;派生类名&gt;:[&lt;继承方式&gt;] &lt;基类名&gt;<br>&#123;	&lt;成员说明表&gt;<br>&#125;; <br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>&lt;派生类名&gt;为派生类的名字。</li>
+<li>&lt;基类名&gt;为直接基类的名字。</li>
+<li>&lt;成员说明表&gt;是在派生类中<strong>新定义</strong>的成员，其中包括对基类成员的<strong>重定义</strong>。</li>
+<li>&lt;继承方式&gt;用于指出从基类继承来的成员在派生类中对外的访问控制</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> <span class="hljs-comment">//基类</span><br>&#123;	<br>    <span class="hljs-type">int</span> x,y;<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">f</span><span class="hljs-params">()</span></span>;<br>	<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">g</span><span class="hljs-params">()</span></span>;<br>&#125;;<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">B</span>: <span class="hljs-keyword">public</span> A <span class="hljs-comment">//派生类</span><br>&#123;	<br>    <span class="hljs-type">int</span> z; <span class="hljs-comment">//新成员</span><br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">h</span><span class="hljs-params">()</span></span>; <span class="hljs-comment">//新成员</span><br>&#125;;<br><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>派生类除了拥有新定义的成员外，还拥有基类的所有成员（基类的构造函数、析构函数和赋值操作符重载函数除外）。例如：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> <span class="hljs-comment">//基类</span><br>&#123;	<br>    <span class="hljs-type">int</span> x,y;<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">f</span><span class="hljs-params">()</span></span>;<br>	<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">g</span><span class="hljs-params">()</span></span>;<br>&#125;;<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">B</span>: <span class="hljs-keyword">public</span> A <span class="hljs-comment">//派生类</span><br>&#123;	<br>    <span class="hljs-type">int</span> z; <span class="hljs-comment">//新成员</span><br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">h</span><span class="hljs-params">()</span></span>; <span class="hljs-comment">//新成员</span><br>&#125;;<br>B b;<br>b.<span class="hljs-built_in">f</span>(); <span class="hljs-comment">//A类中的f</span><br>b.<span class="hljs-built_in">g</span>(); <span class="hljs-comment">//A类中的g</span><br>b.<span class="hljs-built_in">h</span>(); <span class="hljs-comment">//B类中的h</span><br></code></pre></td></tr></table></figure>
+
+<div align=center><img src="/img/posts/AP-2-2.png" srcset="/img/loading.gif" lazyload title="" height="25%" width="25%" /></div>
+</li>
+<li><p>定义派生类时一定要见到基类的定义。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span>; <span class="hljs-comment">//声明</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">B</span>: <span class="hljs-keyword">public</span> A <span class="hljs-comment">//Error</span><br>&#123;<br><span class="hljs-type">int</span> z;<br><span class="hljs-keyword">public</span>:<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">h</span><span class="hljs-params">()</span> </span>&#123; <span class="hljs-built_in">g</span>(); &#125; <span class="hljs-comment">//Error，编译程序不知道基类中是否有函数g。</span><br>&#125;;<br>......<br>B b; <span class="hljs-comment">//Error，编译无法确定b所需内存空间的大小。</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>友元：</p>
+<ul>
+<li><p>如果在派生类中没有显式说明，则基类的友元不是派生类的友元</p>
+</li>
+<li><p>如果基类是另一个类的友元，而该类没有显式说明，则派生类也不是该类的友元</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-在派生类中访问基类成员"><a href="#2-在派生类中访问基类成员" class="headerlink" title="2. 在派生类中访问基类成员"></a>2. 在派生类中访问基类成员</h4><ul>
+<li><p>C++中，派生类不能直接访问基类的私有成员。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span><br>&#123;	<br>    <span class="hljs-type">int</span> x,y;<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">f</span><span class="hljs-params">()</span></span>;<br>	<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">g</span><span class="hljs-params">()</span> </span>&#123; ... x ，y ... &#125;<br>&#125;;<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">B</span>: <span class="hljs-keyword">public</span> A<br>&#123;	<br>    <span class="hljs-type">int</span> z;<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">h</span><span class="hljs-params">()</span> </span><br><span class="hljs-function">	</span>&#123;	... x，y ...  <span class="hljs-comment">//Error，x、y为基类的私有成员。</span><br>		<span class="hljs-built_in">f</span>();  <span class="hljs-comment">//OK</span><br>		<span class="hljs-built_in">g</span>();  <span class="hljs-comment">//OK，通过函数g访问基类的私有成员x和y。</span><br>	&#125;<br>&#125;; <br></code></pre></td></tr></table></figure>
+</li>
+<li><p>继承与封装的矛盾</p>
+<ul>
+<li><p>在派生类中定义新的成员函数或对基类已有成员函数重定义时，往往需要直接访问基类的一些private成员</p>
+<ul>
+<li>特别是private数据成员</li>
+<li>否则新功能无法实现</li>
+</ul>
+</li>
+<li><p>而类的private成员是不允许外界使用的（数据封装）</p>
+</li>
+</ul>
+</li>
+<li><p>实际上，有了继承机制以后，一个类的成员有两种被外界使用的场合：</p>
+<ul>
+<li><p>通过类的对象（实例）使用</p>
+</li>
+<li><p>在派生类中使用</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span><br>&#123; ......<br>  m<br>&#125;;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">g</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123; A a;<br>  ... a.m ... <span class="hljs-comment">//通过A的对象（实例）使用A的成员m</span><br>&#125;<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">B</span>: <span class="hljs-keyword">public</span> A<br>&#123; ......<br>  <span class="hljs-built_in">f</span>() &#123; ... m ...&#125; <span class="hljs-comment">//通过派生类使用A的成员m</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>protected访问控制</p>
+<ul>
+<li><p>用protected说明的成员不能通过对象使用，但可以在派生类中使用。</p>
+</li>
+<li><p>protected访问控制<strong>缓解了</strong>封装与继承的矛盾</p>
+</li>
+<li><p>C++类向外界提供两种接口：</p>
+<ul>
+<li><p>public：通过对象（类的实例用户）使用</p>
+</li>
+<li><p>public+protected：供派生类使用</p>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span><br>&#123;<br><span class="hljs-keyword">protected</span>:<br>	<span class="hljs-type">int</span> x,y;<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">f</span><span class="hljs-params">()</span></span>;<br>&#125;;<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">B</span>: <span class="hljs-keyword">public</span> A<br>&#123;	......<br>	<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">h</span><span class="hljs-params">()</span></span><br><span class="hljs-function">	</span>&#123;	<span class="hljs-built_in">f</span>();  <span class="hljs-comment">//OK</span><br>		... x ...  <span class="hljs-comment">//OK</span><br>		... y ...  <span class="hljs-comment">//OK</span><br>	&#125;<br>&#125;;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">g</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;	A a;<br>	a.<span class="hljs-built_in">f</span>();  <span class="hljs-comment">//OK</span><br>	... a.x ...  <span class="hljs-comment">//Error</span><br>	... a.y ...  <span class="hljs-comment">//Error</span><br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>一般情况下，应该把今后不太可能发生变动的、有可能被派生类使用的、不宜对实例用户公开的成员声明为protected。</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-派生类成员标识符的作用域"><a href="#3-派生类成员标识符的作用域" class="headerlink" title="3. 派生类成员标识符的作用域"></a>3. 派生类成员标识符的作用域</h4><ul>
+<li><p>派生类对基类成员的访问除了受到基类的访问控制的限制以外，还要受到标识符作用域（scope）的限制。</p>
+</li>
+<li><p>对基类而言，派生类成员标识符的作用域是<strong>嵌套在</strong>基类作用域中的。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span><br>&#123;  ......<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">f</span><span class="hljs-params">()</span> </span>&#123; <span class="hljs-built_in">g</span>(); &#125; <span class="hljs-comment">//Error!</span><br>    ......<br>&#125;<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">B</span>:<span class="hljs-keyword">public</span> A<br>&#123; ......<br><span class="hljs-keyword">public</span>:<br>   <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">g</span><span class="hljs-params">()</span> </span>&#123; <span class="hljs-built_in">f</span>(); &#125; <span class="hljs-comment">//OK</span><br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>如果派生类中定义了与基类同名的成员，则基类的成员名在派生类的作用域内不直接可见（被隐藏，Hidden）。访问基类同名成员时要用基类名受限。例如:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> <span class="hljs-comment">//基类</span><br>&#123;	<br>    <span class="hljs-type">int</span> x,y;<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">f</span><span class="hljs-params">()</span></span>;<br>	<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">g</span><span class="hljs-params">()</span></span>;<br>&#125;;<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">B</span>: <span class="hljs-keyword">public</span> A<br>&#123;<br>	<span class="hljs-type">int</span> z;<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">f</span><span class="hljs-params">()</span></span>;<br>	<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">h</span><span class="hljs-params">()</span></span><br><span class="hljs-function">	</span>&#123;<br>        <span class="hljs-built_in">f</span>(); <span class="hljs-comment">//B类中的f</span><br>		A::<span class="hljs-built_in">f</span>(); <span class="hljs-comment">//A类中的f</span><br>	&#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>即使派生类中定义了与基类同名但参数不同的成员函数，基类的同名函数在派生类的作用域中也是不直接可见的，仍然需要用基类名受限方式来使用之：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">B</span>: <span class="hljs-keyword">public</span> A<br>&#123;<br>    <span class="hljs-type">int</span> z;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">f</span><span class="hljs-params">(<span class="hljs-type">int</span>)</span></span>; <span class="hljs-comment">//不是重载A的f！</span><br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">h</span><span class="hljs-params">()</span> </span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-built_in">f</span>(<span class="hljs-number">1</span>); <span class="hljs-comment">//OK</span><br>        <span class="hljs-built_in">f</span>(); <span class="hljs-comment">//Error</span><br>        A::<span class="hljs-built_in">f</span>(); <span class="hljs-comment">//OK</span><br>	&#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>注意：B类中的f与A类中的f不属于函数名重载，因为它们属于不同的作用域。</li>
+</ul>
+</li>
+<li><p>也可以在派生类中使用using声明把基类中某个的函数名对派生类开放：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">B</span>: <span class="hljs-keyword">public</span> A<br>&#123;<br>    <span class="hljs-type">int</span> z;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-keyword">using</span> A::f;<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">f</span><span class="hljs-params">(<span class="hljs-type">int</span>)</span></span>; <br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">h</span><span class="hljs-params">()</span> </span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-built_in">f</span>(<span class="hljs-number">1</span>); <span class="hljs-comment">//OK</span><br>        <span class="hljs-built_in">f</span>(); <span class="hljs-comment">//OK，等价于A::f();</span><br>	&#125;<br>&#125;;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="4-基类成员在派生类中对外的访问控制"><a href="#4-基类成员在派生类中对外的访问控制" class="headerlink" title="4. 基类成员在派生类中对外的访问控制"></a>4. 基类成员在派生类中对外的访问控制</h4><h3 id="（五）protected访问控制"><a href="#（五）protected访问控制" class="headerlink" title="（五）protected访问控制"></a>（五）protected访问控制</h3><h3 id="（六）继承方式与子类型"><a href="#（六）继承方式与子类型" class="headerlink" title="（六）继承方式与子类型"></a>（六）继承方式与子类型</h3><h3 id="（七）派生类对象的初始化与消亡处理"><a href="#（七）派生类对象的初始化与消亡处理" class="headerlink" title="（七）派生类对象的初始化与消亡处理"></a>（七）派生类对象的初始化与消亡处理</h3><h3 id="（八）派生类对象的赋值"><a href="#（八）派生类对象的赋值" class="headerlink" title="（八）派生类对象的赋值"></a>（八）派生类对象的赋值</h3>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" class="category-chain-item">高级程序设计</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E9%AB%98%E7%BA%A7%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/">#高级程序设计</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>高级程序设计二：继承——派生类</div>
+      <div>http://example.com/2022/10/12/AP2/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>墨羽离弦</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年10月12日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/09/30/vector/" title="C++中vector使用方法">
+                        <span class="hidden-mobile">C++中vector使用方法</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.1/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
