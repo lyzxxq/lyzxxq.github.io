@@ -24,7 +24,7 @@
 <meta property="og:description" content="一、关系数据库系统的优点1. 数据结构简单 关系数据库系统中的数据结构：二维表  2. 用户使用方便 不涉及系统的内部物理结构 非过程性数据子语言  3. 功能强 模型的表达能力强，具有一定的模型修改功能 可方便地修改数据间的联系 可灵活选择数据存取路径 高级的数据操纵语言  4. 数据独立性高 数据的逻辑结构不涉及物理因素 操作的非过程性  5. 理论基础深 关系数据库系统一般建立在逻辑与代数基">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-09-13T10:00:00.000Z">
-<meta property="article:modified_time" content="2023-02-11T15:26:24.858Z">
+<meta property="article:modified_time" content="2023-02-11T15:32:18.303Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="数据库">
 <meta name="twitter:card" content="summary_large_image">
@@ -920,18 +920,16 @@
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">expr [<span class="hljs-keyword">NOT</span>] <span class="hljs-keyword">IN</span> (subquery)<br></code></pre></td></tr></table></figure>
 </li>
 <li><p>限定比较谓词：标量与集合中元素之间的量化比较</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">expr $\theta$[<span class="hljs-keyword">NOT</span>] <span class="hljs-keyword">IN</span> (subquery)<br></code></pre></td></tr></table></figure>
-</li>
-<li></li>
-<li><p>exprANY ALL ( subquery</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">expr a <span class="hljs-keyword">ANY</span> <span class="hljs-operator">|</span> <span class="hljs-keyword">ALL</span> (subquery)<br></code></pre></td></tr></table></figure>
 </li>
 <li><p>EXISTS 谓词：是否为空集的判断谓词</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">[<span class="hljs-keyword">NOT</span>] <span class="hljs-keyword">EXISTS</span> (subquery)<br></code></pre></td></tr></table></figure></li>
+</ul>
 </li>
-<li><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">expr [<span class="hljs-keyword">NOT</span>] <span class="hljs-keyword">IN</span> (subquery)<br></code></pre></td></tr></table></figure>
-</li>
-<li></li>
-<li><p>[NOT EXISTS ( subquery</p>
-</li>
+<li><p>嵌套查询的处理顺序</p>
+<ul>
+<li>独立子查询：一般情况下，嵌套查询中的子查询只需要被执行一次，然后利用所获得的中间查询结果来计算外层的查询语句，处理顺序由<strong>内</strong>到<strong>外</strong></li>
+<li>相关子查询’，其</li>
 </ul>
 </li>
 </ul>
