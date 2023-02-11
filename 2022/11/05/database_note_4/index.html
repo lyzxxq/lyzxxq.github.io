@@ -1,0 +1,1270 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="墨羽离弦">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="一、数据库的安全性（一）数据库的安全与安全数据库数据库的安全 防止非法使用数据库。即要求数据库的用户：  通过规定的访问途径  按照规定的访问规则（规范）   来访问数据库中的数据，并接受来自DBMS的各种检查   （二）数据库安全的基本概念与内容1. 可信计算基TCB 它是为实现数据库安全所采用的所有实施策略与机制的集合  它是实施、检查、监督数据库安全的机构   2. 主体、客体与主客体分离">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库概论四：数据库的安全性与完整性保护">
+<meta property="og:url" content="http://example.com/2022/11/05/database_note_4/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="一、数据库的安全性（一）数据库的安全与安全数据库数据库的安全 防止非法使用数据库。即要求数据库的用户：  通过规定的访问途径  按照规定的访问规则（规范）   来访问数据库中的数据，并接受来自DBMS的各种检查   （二）数据库安全的基本概念与内容1. 可信计算基TCB 它是为实现数据库安全所采用的所有实施策略与机制的集合  它是实施、检查、监督数据库安全的机构   2. 主体、客体与主客体分离">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-11-05T10:00:00.000Z">
+<meta property="article:modified_time" content="2023-02-11T17:33:50.717Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="数据库">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>数据库概论四：数据库的安全性与完整性保护 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>墨羽离弦</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="数据库概论四：数据库的安全性与完整性保护"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-11-05 18:00" pubdate>
+          2022年11月5日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          51 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">数据库概论四：数据库的安全性与完整性保护</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="一、数据库的安全性"><a href="#一、数据库的安全性" class="headerlink" title="一、数据库的安全性"></a>一、数据库的安全性</h2><h3 id="（一）数据库的安全与安全数据库"><a href="#（一）数据库的安全与安全数据库" class="headerlink" title="（一）数据库的安全与安全数据库"></a>（一）数据库的安全与安全数据库</h3><h4 id="数据库的安全"><a href="#数据库的安全" class="headerlink" title="数据库的安全"></a>数据库的安全</h4><ul>
+<li><p>防止非法使用数据库。即要求数据库的用户：</p>
+<ul>
+<li><p>通过规定的访问途径</p>
+</li>
+<li><p>按照规定的访问规则（规范）</p>
+</li>
+</ul>
+<p>来访问数据库中的数据，并接受来自<strong>DBMS</strong>的各种检查</p>
+</li>
+</ul>
+<h3 id="（二）数据库安全的基本概念与内容"><a href="#（二）数据库安全的基本概念与内容" class="headerlink" title="（二）数据库安全的基本概念与内容"></a>（二）数据库安全的基本概念与内容</h3><h4 id="1-可信计算基TCB"><a href="#1-可信计算基TCB" class="headerlink" title="1. 可信计算基TCB"></a>1. 可信计算基<strong>TCB</strong></h4><ul>
+<li><p>它是为实现数据库安全所采用的所有实施策略与机制的集合</p>
+</li>
+<li><p>它是实施、检查、监督数据库安全的机构</p>
+</li>
+</ul>
+<h4 id="2-主体、客体与主客体分离"><a href="#2-主体、客体与主客体分离" class="headerlink" title="2. 主体、客体与主客体分离"></a>2. 主体、客体与主客体分离</h4><ul>
+<li><p>客体</p>
+<ul>
+<li><p>数据库中的数据及其载体</p>
+</li>
+<li><p>如：表、视图、快照、存储过程、数据文件等</p>
+</li>
+</ul>
+</li>
+<li><p>主体</p>
+<ul>
+<li>数据库中数据的访问者</li>
+</ul>
+</li>
+<li><p>与数据库安全有关的所有实体都可以被抽象为主体或客体。由所有主体构成的主体集合与由所有客体构成的客体集合之间存在着一种单向访问关系。</p>
+</li>
+<li><p>数据库安全就是研究有关实体的主&#x2F;客体划分以及主&#x2F;客体之间的访问关系的控制</p>
+</li>
+</ul>
+<h4 id="3-身份标识与鉴别"><a href="#3-身份标识与鉴别" class="headerlink" title="3. 身份标识与鉴别"></a>3. 身份标识与鉴别</h4><ul>
+<li><p>在数据库安全中，主体访问客体时需进行一定的安全控制与检查，目前存在三种控制方式：</p>
+<ul>
+<li>身份标识与鉴别</li>
+<li>自主访问控制</li>
+<li>强制访问控制</li>
+</ul>
+</li>
+<li><p>其中身份标识与鉴别是系统提供的最外层安全保护措施</p>
+</li>
+<li><p>每个主体必须有一个标志自己身份的标识符（以区别不同的主体）以及一个用以验证其身份的访问口令。当主体访问客体时，<strong>TCB</strong> 将对主体所提交的身份标识符和口令进行鉴别，以阻止非法访问</p>
+</li>
+<li><p>常用的控制措施</p>
+<ul>
+<li><p>登录控制</p>
+<ul>
+<li>对用户标识符和口令的鉴别</li>
+<li>限制重复性登录失败次数</li>
+<li>保证登录的可信路径（本地或远程）</li>
+<li>限制在一天当中允许访问的时间</li>
+</ul>
+</li>
+<li><p>口令字选取</p>
+<ul>
+<li>控制用户口令字选取，如：最小长度，组合，历史等</li>
+<li>某些口令可由系统生成再分配给用户</li>
+<li>强制实施口令字有效期机制</li>
+</ul>
+</li>
+<li><p>对鉴别数据的保护</p>
+<ul>
+<li>输入口令字时不许回显</li>
+<li>避免未授权的访问与修改</li>
+<li>防止重播攻击</li>
+<li>防止伪造或拷贝</li>
+<li>防止重用，如：只允许单次使用的口令字</li>
+<li>提供口令字修改的可信路径</li>
+</ul>
+</li>
+<li><p>会话连接挂起</p>
+<ul>
+<li>在用户停止操作一段时间后挂起</li>
+<li>根据用户要求挂起</li>
+<li>在用户停止操作一段时间后终止</li>
+</ul>
+</li>
+<li><p>用户帐号和属性文件</p>
+<ul>
+<li>控制对用户帐号的生成、删除、激活或停用</li>
+<li>定义用户属性文件中所包含的安全属性</li>
+<li>控制对用户属性文件的修改</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="4-自主访问控制（DAC）"><a href="#4-自主访问控制（DAC）" class="headerlink" title="4. 自主访问控制（DAC）"></a>4. 自主访问控制（<strong>DAC</strong>）</h4><ul>
+<li><p>是一种基于存取矩阵的安全控制模型</p>
+</li>
+<li><p>此模型由主体、客体和存&#x2F;取操作三部分内容构成了一个矩阵</p>
+</li>
+<li><p>基于存取矩阵的自主访问控制功能</p>
+<ul>
+<li><p>安全政策范围验证</p>
+<ul>
+<li>主体、客体以及操作</li>
+</ul>
+</li>
+<li><p>控制主体访问客体的规则验证</p>
+<ul>
+<li><p>主体按存取矩阵模型的要求访问客体</p>
+</li>
+<li><p>凡不符合存取矩阵要求的访问均属非法访问</p>
+</li>
+</ul>
+</li>
+<li><p>超越<strong>DAC</strong>的特权验证</p>
+<ul>
+<li>如数据库管理员、客体的属主等</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>对<strong>DAC</strong>属性的控制</p>
+<ul>
+<li>改变客体的许可权限</li>
+<li>对新建客体的缺省保护</li>
+<li>改变客体的属主</li>
+<li>改变用户组的隶属关系</li>
+</ul>
+</li>
+<li><p><strong>DAC</strong>的特点</p>
+<ul>
+<li><p>存取矩阵中的元素是可以随意改变的</p>
+</li>
+<li><p>主体可以通过授权（ Grant ）&#x2F; 回收（ Revoke ）操作变更某些操作权限</p>
+</li>
+<li><p>适合于单机方式下的访问控制</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="5-强制访问控制（MAC）"><a href="#5-强制访问控制（MAC）" class="headerlink" title="5. 强制访问控制（MAC）"></a>5. 强制访问控制（<strong>MAC</strong>）</h4><ul>
+<li><p>是主体访问客体的一种强制性的安全控制方式，主要用于网络环境，对网络中的数据库安全实体作统一的、强制性的访问管理</p>
+</li>
+<li><p>主 &#x2F; 客体标记（ label ）</p>
+<ul>
+<li>安全级别标记（ label of security level）<ul>
+<li>规定了主客体的安全级别</li>
+</ul>
+</li>
+<li>安全范围标记（ label of security category）<ul>
+<li>规定了主体可以访问的范围（客体所处的范围）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>在主体访问客体的过程中，主体与客体的标记必须满足系统所采用的强制访问控制策略的要求，否则将被视为非法访问</p>
+</li>
+<li><p>强制访问控制的实施机制：<strong>Bell-Lapadula</strong>模型</p>
+<ul>
+<li><p>每个标记由一个整数的分层密级和一个非分层范畴的集合构成。当主体访问客体时必须满足以下条件：</p>
+<ul>
+<li><p>（下读）仅当主体的分层密级大于或等于客体的分层密级，且主体的非分层范畴集合包含或等于客体的非分层范畴集合时，主体才能读客体</p>
+</li>
+<li><p>（上写）仅当主体的分层密级小于或等于客体的分层密级，且主体的非分层范畴集合被包含或等于客体的非分层范畴集合时，主体才能写客体</p>
+</li>
+</ul>
+</li>
+<li><p>强制访问控制中的主、客体标记由专门的安全管理员设置，任何主体均无权设置与授权，它体现了在网上对数据库安全的强制性与统一性</p>
+</li>
+</ul>
+</li>
+<li><p>强制性的访问控制措施</p>
+<ul>
+<li><p>安全政策范围验证</p>
+<ul>
+<li>主体、客体以及操作</li>
+</ul>
+</li>
+<li><p>验证控制访问和信息流动的规则</p>
+</li>
+<li><p>验证可超越<strong>MAC</strong>特权</p>
+</li>
+</ul>
+</li>
+<li><p>对<strong>MAC</strong>属性的控制</p>
+<ul>
+<li>改变客体标记</li>
+<li>对新建客体的缺省标记</li>
+<li>改变主体安全属性</li>
+</ul>
+</li>
+</ul>
+<h4 id="6-数据完整性"><a href="#6-数据完整性" class="headerlink" title="6. 数据完整性"></a>6. 数据完整性</h4><ul>
+<li><p>防止非法使用插入（<strong>insert</strong>）、删除（<strong>delete</strong>）、修改（<strong>update</strong>）等影响数据完整性的操作</p>
+</li>
+<li><p>控制手段</p>
+<ul>
+<li><p>对存储数据错误的检测</p>
+</li>
+<li><p>事务回卷功能</p>
+</li>
+</ul>
+</li>
+<li><p>常用的控制手段：三类数据完整性</p>
+<ul>
+<li>实体完整性</li>
+<li>关联完整性</li>
+<li>用户定义完整性约束</li>
+</ul>
+</li>
+</ul>
+<h4 id="7-隐蔽通道"><a href="#7-隐蔽通道" class="headerlink" title="7. 隐蔽通道"></a>7. 隐蔽通道</h4><ul>
+<li><p>在主体对客体的访问过程中，可通过自主及强制访问控制措施来提供安全保护</p>
+</li>
+<li><p>公开通道</p>
+<ul>
+<li>正规的、接受<strong>TCB</strong>的（自主**&#x2F;**强制）访问控制检查的访问通道</li>
+</ul>
+</li>
+<li><p>隐蔽通道</p>
+<ul>
+<li>非正规的、不受<strong>TCB</strong> 控制的访问通道</li>
+</ul>
+</li>
+<li><p>为了真正保证数据的安全性，就必须分析、发现隐蔽通道，防止隐蔽通道的产生</p>
+</li>
+</ul>
+<h4 id="8-数据库安全的形式化模型"><a href="#8-数据库安全的形式化模型" class="headerlink" title="8. 数据库安全的形式化模型"></a>8. 数据库安全的形式化模型</h4><ul>
+<li><p>用数学形式对数据安全模型的安全策略作形式化描述、验证与证明，形成严格的形式化体系</p>
+</li>
+<li><p>建立一个数据库安全的形式化模型，有利于发现并填补安全漏洞，防止隐蔽通道，并为数据安全的进一步研究提供理论基础</p>
+</li>
+</ul>
+<h4 id="9-审计"><a href="#9-审计" class="headerlink" title="9. 审计"></a>9. 审计</h4><ul>
+<li><p>跟踪记录用户对数据的访问操作：</p>
+<ul>
+<li><p>访问时间**&#x2F;<strong>访问内容</strong>&#x2F;<strong>用户名</strong>&#x2F;<strong>终端名</strong>&#x2F;<strong>操作类型</strong>&#x2F;**操作结果</p>
+</li>
+<li><p>并可根据审计结果给出报警信息</p>
+</li>
+</ul>
+</li>
+<li><p>由于执行审计操作需要额外的时间和空间开销，因此在<strong>DBMS</strong>中，<strong>审计</strong>通常是一个可选择的安全保护手段，主要用于安全性要求较高的部门</p>
+</li>
+<li><p>与审计有关的保护措施有：</p>
+<ul>
+<li><p>审计事件控制</p>
+<ul>
+<li>对可审计事件和需记录信息的说明</li>
+<li>对需审计事件选择的控制</li>
+<li>对单个身份审计</li>
+</ul>
+</li>
+<li><p>入侵检测和应对</p>
+<ul>
+<li>生成报警信息，并对即将发生的安全违规行为采取应对措施</li>
+<li>定义用于指示潜在或即将发生的安全违规行为的那些规则、事件、事件序列或系统使用模式</li>
+</ul>
+</li>
+<li><p>审计记录的保护</p>
+<ul>
+<li><p>避免数据丢失，如：审计记录饱和、操作中断等</p>
+</li>
+<li><p>避免未授权的修改**&#x2F;** 访问</p>
+</li>
+</ul>
+</li>
+<li><p>审计记录的分析**&#x2F;** 查阅</p>
+<ul>
+<li>提供相应的分析**&#x2F;** 查阅工具</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="10-访问监控器"><a href="#10-访问监控器" class="headerlink" title="10. 访问监控器"></a>10. 访问监控器</h4><ul>
+<li><p>上述的安全策略须有一个网络中的实体来完成，即访问监控器</p>
+<ul>
+<li>访问监控器是一个独立的（既非主体，亦非客体）、最小的、抗篡改的、自主机构，用来监控主体和客体之间的授权访问关系</li>
+</ul>
+</li>
+<li><p><strong>TCB</strong>是一个抽象的功能 &#x2F; 策略集合，而访问监控器则是一个客观存在的实体，是<strong>TCB</strong>在网络中的实现</p>
+</li>
+</ul>
+<h3 id="（三）数据库的安全标准"><a href="#（三）数据库的安全标准" class="headerlink" title="（三）数据库的安全标准"></a>（三）数据库的安全标准</h3><ul>
+<li><p>计算机信息系统安全保护等级划分准则（<strong>GB 17859-1999</strong>）</p>
+<table>
+<thead>
+<tr>
+<th align="center">GB 17859-1999分级</th>
+<th align="center">TCSEC分级</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">-</td>
+<td align="center">D</td>
+</tr>
+<tr>
+<td align="center">第1级：自主安全保护级</td>
+<td align="center">C1</td>
+</tr>
+<tr>
+<td align="center">第2级：系统审计保护级</td>
+<td align="center">C2</td>
+</tr>
+<tr>
+<td align="center">第3级：安全标记保护级</td>
+<td align="center">B1</td>
+</tr>
+<tr>
+<td align="center">第4级：结构化保护级</td>
+<td align="center">B2</td>
+</tr>
+<tr>
+<td align="center">第5级：访问验证保护级</td>
+<td align="center">B3</td>
+</tr>
+<tr>
+<td align="center">-</td>
+<td align="center">A</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h3 id="（四）SQL对数据库安全的支持"><a href="#（四）SQL对数据库安全的支持" class="headerlink" title="（四）SQL对数据库安全的支持"></a>（四）<strong>SQL</strong>对数据库安全的支持</h3><ul>
+<li><p>在 SQL’92 中提供了 C1 级数据库安全的支持，它们是：</p>
+<ul>
+<li><p>主体、客体及主&#x2F;客体分离</p>
+</li>
+<li><p>身份标识与鉴别</p>
+</li>
+<li><p>数据完整性</p>
+</li>
+<li><p>自主访问控制与授权功能</p>
+<ul>
+<li><p>SQL 中的自主访问控制是通过（用户，操作对象，操作权限）这样的三元组来定义用户对于数据的访问权限的，并可通过授权（ Grant ）和回收（ Revoke ）语句来改变用户的访问权限</p>
+</li>
+<li><p>操作权限</p>
+<ul>
+<li>SELECT权、INSERT权、DELETE权、UPDATE权、REFERENCE权、EXECUTE权、USAGE权</li>
+</ul>
+</li>
+<li><p>操作对象</p>
+<ul>
+<li><p>表，视图</p>
+</li>
+<li><p>属性</p>
+</li>
+<li><p>域（<strong>type</strong>），<strong>UDT</strong>（用户定义数据类型）</p>
+</li>
+<li><p>存储过程 &#x2F; 函数，触发器</p>
+</li>
+</ul>
+</li>
+<li><p>用户</p>
+<ul>
+<li>数据库用户</li>
+</ul>
+</li>
+<li><p>授权语句</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">GRANT</span> <span class="hljs-operator">&lt;</span>操作权限列表<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">ON</span> <span class="hljs-operator">&lt;</span>操作对象<span class="hljs-operator">&gt;</span><br>	<span class="hljs-keyword">TO</span> <span class="hljs-operator">&lt;</span>用户名列表<span class="hljs-operator">&gt;</span> [<span class="hljs-keyword">WITH</span> <span class="hljs-keyword">GRANT</span> OPTION]<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>回收语句</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">REVOKE</span> <span class="hljs-operator">&lt;</span>操作权限列表<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">ON</span> <span class="hljs-operator">&lt;</span>操作对象<span class="hljs-operator">&gt;</span><br><span class="hljs-keyword">FROM</span> <span class="hljs-operator">&lt;</span>用户名列表<span class="hljs-operator">&gt;</span> [RESTRICT <span class="hljs-operator">|</span> CASCADE]<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><p>CASCADE：连锁回收</p>
+</li>
+<li><p>RESTRICT：在不存在连锁回收问题时才能回收权限，否则拒绝回收</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="二、数据库的完整性"><a href="#二、数据库的完整性" class="headerlink" title="二、数据库的完整性"></a>二、数据库的完整性</h2><h3 id="（一）概述"><a href="#（一）概述" class="headerlink" title="（一）概述"></a>（一）概述</h3><h4 id="1-数据库的完整性"><a href="#1-数据库的完整性" class="headerlink" title="1. 数据库的完整性"></a>1. 数据库的完整性</h4><ul>
+<li><p>指数据库中数据的正确性和一致性，包括：</p>
+<ul>
+<li><p>正确性：数据的有效性、有意义</p>
+</li>
+<li><p>一致性：在多用户（多程序）并发访问数据库的情况下，保证对数据的更新不会出现与实际不一致的情况</p>
+</li>
+</ul>
+</li>
+<li><p>我们一方面要避免在数据库中出现错误的数据，即防止数据的完整性受到破坏。同时，如果因为某些不可抗拒的原因而导致数据库中的数据被破坏，也要能够及时发现并采取一定的措施将数据库中的数据恢复到正确的状态下去</p>
+</li>
+</ul>
+<h4 id="2-完整性保护"><a href="#2-完整性保护" class="headerlink" title="2. 完整性保护"></a>2. 完整性保护</h4><ul>
+<li><p>对数据库中数据的正确性和一致性的维护，包括：</p>
+<ul>
+<li><p>在执行更新操作时，检查是否违反完整性约束条件，并且在证明其无效后作出适当的反应</p>
+</li>
+<li><p>防止有存取权的合法用户的误操作</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-完整性保护的目的"><a href="#3-完整性保护的目的" class="headerlink" title="3. 完整性保护的目的"></a>3. 完整性保护的目的</h4><ul>
+<li><p>及时发现错误</p>
+</li>
+<li><p>能够采取措施防止错误的进一步蔓延</p>
+</li>
+<li><p>最终将数据库恢复到正确状态</p>
+</li>
+</ul>
+<h4 id="4-完整性保护的实现措施"><a href="#4-完整性保护的实现措施" class="headerlink" title="4. 完整性保护的实现措施"></a>4. 完整性保护的实现措施</h4><ul>
+<li>完整性约束条件的定义及检查</li>
+<li>触发器</li>
+<li>并发控制技术</li>
+</ul>
+<h3 id="（二）数据库完整性保护的功能"><a href="#（二）数据库完整性保护的功能" class="headerlink" title="（二）数据库完整性保护的功能"></a>（二）数据库完整性保护的功能</h3><h4 id="三个基本功能"><a href="#三个基本功能" class="headerlink" title="三个基本功能"></a>三个基本功能</h4><ul>
+<li><p>设置功能</p>
+<ul>
+<li>系统及用户对数据库完整性的基本要求</li>
+</ul>
+</li>
+<li><p>检查功能</p>
+<ul>
+<li>有能力检查数据库中的数据是否有违反约束条件的现象出现</li>
+</ul>
+</li>
+<li><p>处理功能</p>
+<ul>
+<li>出现违反约束条件时，有及时处理的能力</li>
+</ul>
+</li>
+</ul>
+<h3 id="（三）完整性规则的三个内容"><a href="#（三）完整性规则的三个内容" class="headerlink" title="（三）完整性规则的三个内容"></a>（三）完整性规则的三个内容</h3><h4 id="在关系数据库系统中提供了下述三类数据完整性约束："><a href="#在关系数据库系统中提供了下述三类数据完整性约束：" class="headerlink" title="在关系数据库系统中提供了下述三类数据完整性约束："></a>在关系数据库系统中提供了下述三类数据完整性约束：</h4><ul>
+<li><p>实体完整性规则</p>
+<ul>
+<li>在一个基表的<strong>主关键字</strong>（主码）中，其属性的取值不能为空值</li>
+</ul>
+</li>
+<li><p>参照完整性规则</p>
+<ul>
+<li><p>若关系 R 中有属性集 F 与另一个关系 S 的主关键字 K<sub>s</sub> 相对应（即具有相同的语义和取值范围），则称关系 R 引用关系 S 中的元组</p>
+<ul>
+<li>这样的属性集 F 被称为关系 R 的外关键字（关系 R 和关系 S 可以是同一个关系）</li>
+</ul>
+</li>
+<li><p>参照完整性规则要求</p>
+<ul>
+<li>关系 R 中的每个元组在外关键字 F 上的值或者是空值（ NULL ），或必须引用在关系 S 中存在的元组，即不能引用不存在的实体</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>用户定义的完整性规则</p>
+<ul>
+<li>由用户来定义的数据完整性要求</li>
+</ul>
+</li>
+</ul>
+<h3 id="（四）完整性约束的设置、检查与处理"><a href="#（四）完整性约束的设置、检查与处理" class="headerlink" title="（四）完整性约束的设置、检查与处理"></a>（四）完整性约束的设置、检查与处理</h3><h4 id="1-一条完整性约束规则一般有三个组成部分"><a href="#1-一条完整性约束规则一般有三个组成部分" class="headerlink" title="1. 一条完整性约束规则一般有三个组成部分"></a>1. 一条完整性约束规则一般有三个组成部分</h4><ul>
+<li><p>完整性约束条件的设置</p>
+</li>
+<li><p>完整性约束条件的检查</p>
+<ul>
+<li>在<strong>DBMS</strong>内部设置专门的软件检查模块</li>
+</ul>
+</li>
+<li><p>完整性约束条件的处理</p>
+<ul>
+<li>在用户的操作会破坏数据的完整性（即违反完整性约束条件的要求）时，系统将：<ul>
+<li>拒绝执行，并报警或报错；</li>
+<li>调用相应的函数（例程）进行处理，如：<ul>
+<li>在外键定义子句中给出的处理方法</li>
+<li>在触发器中给出的处理过程</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-完整性约束条件设置"><a href="#2-完整性约束条件设置" class="headerlink" title="2. 完整性约束条件设置"></a>2. 完整性约束条件设置</h4><ul>
+<li><p>属性级的约束（域约束）</p>
+<ul>
+<li>数据类型的约束，非空值约束，取值范围的约束</li>
+</ul>
+</li>
+<li><p>元组级的约束（表约束）</p>
+<ul>
+<li><p>主码定义，候选码（唯一键）定义</p>
+</li>
+<li><p>外码定义</p>
+</li>
+<li><p>基于元组的检查子句：属性间关系的定义</p>
+</li>
+</ul>
+</li>
+<li><p>全局约束（断言<strong>assertion</strong>）</p>
+<ul>
+<li>单个关系中涉及到统计操作的约束条件</li>
+<li>多个关系之间复杂的约束条件</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-对约束命名"><a href="#3-对约束命名" class="headerlink" title="3. 对约束命名"></a>3. 对约束命名</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">CONSTRAINT</span> <span class="hljs-operator">&lt;</span>约束名<span class="hljs-operator">&gt;</span> <span class="hljs-operator">&lt;</span>完整性约束定义子句<span class="hljs-operator">&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="4-创建基表命令（CREATE-TABLE）"><a href="#4-创建基表命令（CREATE-TABLE）" class="headerlink" title="4. 创建基表命令（CREATE TABLE）"></a>4. 创建基表命令（<strong>CREATE TABLE</strong>）</h4><ul>
+<li><p>需要定义的内容</p>
+<ul>
+<li>模式名 &amp; 表名</li>
+</ul>
+</li>
+<li><p>属性的定义</p>
+<ul>
+<li><p>属性名 &amp; 数据类型</p>
+</li>
+<li><p>属性的缺省值定义</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">DEFAULT</span> &#123;default_constant <span class="hljs-operator">|</span> <span class="hljs-keyword">NULL</span>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>属性级的数据约束定义</p>
+</li>
+</ul>
+</li>
+<li><p>表级的数据约束定义</p>
+</li>
+</ul>
+<h4 id="5-属性级的约束"><a href="#5-属性级的约束" class="headerlink" title="5. 属性级的约束"></a>5. 属性级的约束</h4><ul>
+<li>数据类型的约束，取值范围的约束，非空值约束</li>
+<li>基于单个属性的取值约束</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sql">&#123;	<span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> <span class="hljs-operator">|</span><br>	[<span class="hljs-keyword">CONSTRAINT</span> constraint_name]<br>		<span class="hljs-keyword">UNIQUE</span><br>		<span class="hljs-operator">|</span><span class="hljs-keyword">PRIMARY</span> KEY<br>		<span class="hljs-operator">|</span><span class="hljs-keyword">CHECK</span> (search_condition)<br>		<span class="hljs-operator">|</span><span class="hljs-keyword">REFERENCES</span> table_name [( column_name )]<br>			[<span class="hljs-keyword">ON</span> <span class="hljs-keyword">DELETE</span> CASCADE <span class="hljs-operator">|</span> RESTRICT <span class="hljs-operator">|</span> <span class="hljs-keyword">SET</span> <span class="hljs-keyword">NULL</span>]<br>			[<span class="hljs-keyword">ON</span> <span class="hljs-keyword">UPDATE</span> CASCADE <span class="hljs-operator">|</span> RESTRICT <span class="hljs-operator">|</span> <span class="hljs-keyword">SET</span> <span class="hljs-keyword">NULL</span>]<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>基于多个属性的取值约束</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sql">[<span class="hljs-keyword">CONSTRAINT</span> constraint_name]<br>	&#123;<span class="hljs-keyword">UNIQUE</span> (colname &#123; , colname ... &#125;)<br>		<span class="hljs-operator">|</span><span class="hljs-keyword">PRIMARY</span> KEY (colname &#123; , colname ... &#125;)<br>		<span class="hljs-operator">|</span><span class="hljs-keyword">CHECK</span> (search_condition)<br>		<span class="hljs-operator">|</span><span class="hljs-keyword">FOREIGN</span> KEY (colname &#123; , colname ... &#125;)<br>			<span class="hljs-keyword">REFERENCES</span> table_name [(colname &#123; , colname ...&#125;)<br>				[<span class="hljs-keyword">ON</span> <span class="hljs-keyword">DELETE</span> CASCADE <span class="hljs-operator">|</span> RESTRICT <span class="hljs-operator">|</span> <span class="hljs-keyword">SET</span> <span class="hljs-keyword">NULL</span>]<br>				[<span class="hljs-keyword">ON</span> <span class="hljs-keyword">UPDATE</span> CASCADE <span class="hljs-operator">|</span> RESTRICT <span class="hljs-operator">|</span> <span class="hljs-keyword">SET</span> <span class="hljs-keyword">NULL</span>]&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="6-在定义属性级的数据约束时需要考虑的内容"><a href="#6-在定义属性级的数据约束时需要考虑的内容" class="headerlink" title="6. 在定义属性级的数据约束时需要考虑的内容"></a>6. 在定义属性级的数据约束时需要考虑的内容</h4><ul>
+<li><p>NOT NULL vs. DEFAULT NULL</p>
+</li>
+<li><p>Constraint name</p>
+<ul>
+<li>对某个数据约束条件进行命名（ 可选项）</li>
+<li>以利于以后使用 ALTER TABLE 命令来修改表中的数据约束定义</li>
+</ul>
+</li>
+<li><p>UNIQUE vs. NOT NULL</p>
+<ul>
+<li>UNIQUE 属性可以取空值</li>
+<li>候选键（ candidate key）：UNIQUE + NOT NULL</li>
+</ul>
+</li>
+<li><p>PRIMARY KEY vs. NOT NULL</p>
+</li>
+<li><p>REFERENCES</p>
+<ul>
+<li>FOREIGN KEY （外键） vs. PRIMARY KEY （主键）</li>
+<li>外键上的取值约束及其一致性的保证措施<ul>
+<li>CASCADE | RESTRICT | SET NULL</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>CHECK</p>
+</li>
+</ul>
+<h4 id="7-元组级的约束"><a href="#7-元组级的约束" class="headerlink" title="7. 元组级的约束"></a>7. 元组级的约束</h4><ul>
+<li><p>主码定义： PRIMARY KEY ( <column list> )</p>
+</li>
+<li><p>唯一键定义： UNIQUE ( <column list> )</p>
+</li>
+<li><p>外码定义：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">FOREIGN</span> KEY ( <span class="hljs-operator">&lt;</span>fk<span class="hljs-operator">-</span><span class="hljs-keyword">column</span> list<span class="hljs-operator">&gt;</span> )<br><span class="hljs-keyword">REFERENCES</span> <span class="hljs-operator">&lt;</span><span class="hljs-keyword">table</span><span class="hljs-operator">-</span>name<span class="hljs-operator">&gt;</span> ( <span class="hljs-operator">&lt;</span>pk<span class="hljs-operator">-</span><span class="hljs-keyword">column</span><span class="hljs-operator">-</span>list<span class="hljs-operator">&gt;</span> )<br>[<span class="hljs-keyword">ON</span> <span class="hljs-keyword">UPDATE</span> [RESTRICT CASCADE <span class="hljs-keyword">SET</span> <span class="hljs-keyword">NULL</span>]]<br>[<span class="hljs-keyword">ON</span> <span class="hljs-keyword">DELETE</span> [RESTRICT CASCADE <span class="hljs-keyword">SET</span> <span class="hljs-keyword">NULL</span>]]<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>属性间关系的定义：CHECK ( <condition> )</p>
+</li>
+</ul>
+<h3 id="（五）触发器"><a href="#（五）触发器" class="headerlink" title="（五）触发器"></a>（五）触发器</h3><h4 id="1-触发器"><a href="#1-触发器" class="headerlink" title="1. 触发器"></a>1. 触发器</h4><ul>
+<li><p>在数据库系统中，一个事件的发生会导致另外一些事件的发生，这样的功能被称为触发器</p>
+</li>
+<li><p>触发器的功能：某个事件的发生会导致另外一些事件的执行，以消除前一个事件对数据完整性所起的影响</p>
+</li>
+<li><p>触发器最初是用于数据的完整性保护，但现在已经远远超出了此范围，也被应用于其它的目的，如：</p>
+<ul>
+<li>数据的安全性保护</li>
+<li>用户的应用逻辑处理</li>
+<li>数据库系统的主动功能</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-触发器的组成"><a href="#2-触发器的组成" class="headerlink" title="2. 触发器的组成"></a>2. 触发器的组成</h4><ul>
+<li><p>触发事件（由用户定义）</p>
+<ul>
+<li><p>通常为某个完整性约束条件的否定或某种数据操纵事件</p>
+</li>
+<li><p>如：用户登录，数据的增、删、改等</p>
+</li>
+</ul>
+</li>
+<li><p>结果事件（由用户定义）</p>
+<ul>
+<li><p>当触发事件发生时，用以消除触发事件所引起的负面影响的程序</p>
+</li>
+<li><p>通常是一组由用户书写的<strong>SQL</strong>命令</p>
+</li>
+</ul>
+</li>
+<li><p>触发过程</p>
+<ul>
+<li>当<strong>DBMS</strong>检测到触发事件的发生时，自动调用并执行结果事件的过程</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-触发器的定义命令"><a href="#3-触发器的定义命令" class="headerlink" title="3. 触发器的定义命令"></a>3. 触发器的定义命令</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TRIGGER</span> trigger_name &#123; BEFORE <span class="hljs-operator">|</span> AFTER &#125;<br>	&#123;	<span class="hljs-keyword">INSERT</span> <span class="hljs-operator">|</span> <span class="hljs-keyword">DELETE</span><br>		<span class="hljs-operator">|</span>	<span class="hljs-keyword">UPDATE</span> [ <span class="hljs-keyword">OF</span> colname &#123; , colname ... &#125;]&#125;<br>		<span class="hljs-keyword">ON</span> table_name<br>	[	<span class="hljs-keyword">REFERENCING</span> corr_name_def &#123; , ......&#125;]<br>	[ <span class="hljs-keyword">FOR</span> <span class="hljs-keyword">EACH</span> <span class="hljs-type">ROW</span> <span class="hljs-operator">|</span> <span class="hljs-keyword">FOR</span> <span class="hljs-keyword">EACH</span> STATEMENT]<br>	[ <span class="hljs-keyword">WHEN</span> (search_condition)]<br>		&#123;	statement<br>		<span class="hljs-operator">|</span>	<span class="hljs-keyword">BEGIN</span> <span class="hljs-keyword">ATOMIC</span> statement; &#123;statement; ...&#125; <span class="hljs-keyword">END</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="4-触发器的删除命令"><a href="#4-触发器的删除命令" class="headerlink" title="4. 触发器的删除命令"></a>4. 触发器的删除命令</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TRIGGER</span> trigger_name;<br></code></pre></td></tr></table></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="category-chain-item">数据库</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">#数据库</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>数据库概论四：数据库的安全性与完整性保护</div>
+      <div>http://example.com/2022/11/05/database_note_4/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>墨羽离弦</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年11月5日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/10/22/database_note_3/" title="数据库概论三：关系数据库系统">
+                        <span class="hidden-mobile">数据库概论三：关系数据库系统</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.1/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
