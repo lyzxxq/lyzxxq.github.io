@@ -24,7 +24,7 @@
 <meta property="og:description" content="一、关系数据库系统的优点1. 数据结构简单 关系数据库系统中的数据结构：二维表  2. 用户使用方便 不涉及系统的内部物理结构 非过程性数据子语言  3. 功能强 模型的表达能力强，具有一定的模型修改功能 可方便地修改数据间的联系 可灵活选择数据存取路径 高级的数据操纵语言  4. 数据独立性高 数据的逻辑结构不涉及物理因素 操作的非过程性  5. 理论基础深 关系数据库系统一般建立在逻辑与代数基">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-09-13T10:00:00.000Z">
-<meta property="article:modified_time" content="2023-02-11T14:22:37.510Z">
+<meta property="article:modified_time" content="2023-02-11T15:13:11.703Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="数据库">
 <meta name="twitter:card" content="summary_large_image">
@@ -231,7 +231,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          4.2k 字
+          5.5k 字
         
       </span>
     
@@ -242,7 +242,7 @@
         
         
         
-          36 分钟
+          46 分钟
         
       </span>
     
@@ -741,6 +741,140 @@
 </ul>
 </li>
 </ul>
+<h2 id="四、-关系数据库语言SQL’92"><a href="#四、-关系数据库语言SQL’92" class="headerlink" title="四、 关系数据库语言SQL’92"></a>四、 关系数据库语言<strong>SQL’92</strong></h2><h3 id="（一）SQL数据定义功能"><a href="#（一）SQL数据定义功能" class="headerlink" title="（一）SQL数据定义功能"></a>（一）SQL数据定义功能</h3><h4 id="1-SQL基本数据类型"><a href="#1-SQL基本数据类型" class="headerlink" title="1. SQL基本数据类型"></a>1. <strong>SQL</strong>基本数据类型</h4><table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">符号</th>
+<th align="center">数据类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">INT</td>
+<td align="center">整数</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">SMALLINT</td>
+<td align="center">短整数</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">DEC(m,n)</td>
+<td align="center">十进制数</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">FLOAT</td>
+<td align="center">浮点数</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">CHAR(n)</td>
+<td align="center">定长字符串</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">VARCHAR(n)</td>
+<td align="center">变长字符串</td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="center">BIT(n)</td>
+<td align="center">定长位串</td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td align="center">BIT VARYING(n)</td>
+<td align="center">变长位串</td>
+</tr>
+<tr>
+<td align="center">9</td>
+<td align="center">DATE</td>
+<td align="center">日期</td>
+</tr>
+<tr>
+<td align="center">10</td>
+<td align="center">TIME</td>
+<td align="center">时间</td>
+</tr>
+<tr>
+<td align="center">11</td>
+<td align="center">TIMESTAMP</td>
+<td align="center">时间戳</td>
+</tr>
+</tbody></table>
+<h4 id="2-基表的创建命令"><a href="#2-基表的创建命令" class="headerlink" title="2. 基表的创建命令"></a>2. 基表的创建命令</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> tablename (<br>	colname datatype [<span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>]<br>	&#123; , colname datatype [<span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>]&#125;<br>);<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>命令的格式定义符号<ul>
+<li>[…] &#x2F;* 0或1个 *&#x2F;</li>
+<li>{…} &#x2F;* 0到若干个 *&#x2F;</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-基表的修改命令"><a href="#3-基表的修改命令" class="headerlink" title="3. 基表的修改命令"></a>3. 基表的修改命令</h4><ul>
+<li><p>对基表结构的修改</p>
+<ul>
+<li><p>表中属性的增加**&#x2F;**删除</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-operator">&lt;</span>基表名<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">ADD</span> <span class="hljs-operator">&lt;</span>列名<span class="hljs-operator">&gt;</span> <span class="hljs-operator">&lt;</span>数据类型<span class="hljs-operator">&gt;</span>;<br><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-operator">&lt;</span>基表名<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">DROP</span> <span class="hljs-operator">&lt;</span>列名<span class="hljs-operator">&gt;</span>;<br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>数据完整性约束的修改</p>
+</li>
+</ul>
+<h4 id="4-基表的删除命令"><a href="#4-基表的删除命令" class="headerlink" title="4. 基表的删除命令"></a>4. 基表的删除命令</h4><ul>
+<li><p>删除指定的表及其数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-operator">&lt;</span>基表名<span class="hljs-operator">&gt;</span>;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="（二）SQL数据操纵功能"><a href="#（二）SQL数据操纵功能" class="headerlink" title="（二）SQL数据操纵功能"></a>（二）SQL数据操纵功能</h3><h4 id="1-数据查询"><a href="#1-数据查询" class="headerlink" title="1. 数据查询"></a>1. 数据查询</h4><ul>
+<li><p><strong>SQL</strong>语言数据查询功能的数学基础来源于关系代数</p>
+<ul>
+<li><p>关系代数<br>$$<br>\prod\ _{A_1,A_2,\cdots,A_m}(\sigma_F(R_1\times R_2\times\cdots\times R_n))<br>$$</p>
+</li>
+<li><p>SQL语言</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> A1, A2,..., Am<br><span class="hljs-keyword">FROM</span> R1, R2,..., Rn<br><span class="hljs-keyword">WHERE</span> F<br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>假设**:** </p>
+<p>$Head(R)&#x3D; {A_1,A_2,\cdots,A_n, B_1,\cdots, B_k}$</p>
+<p>$Head(S)&#x3D; {B_1,B_2,\cdots,B_k, C_1,\cdots, C_m}$</p>
+<ul>
+<li><p>关系代数<br>$$<br>\prod\ _{A_1,A_2,\cdots,A_m}(\sigma_F(R\Join S))<br>$$</p>
+</li>
+<li><p>SQL语言</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> A1, A2,..., Am<br><span class="hljs-keyword">FROM</span> R, S<br><span class="hljs-keyword">WHERE</span> F <span class="hljs-keyword">and</span> R.B1<span class="hljs-operator">=</span>S.B1 <span class="hljs-keyword">and</span> R.B2<span class="hljs-operator">=</span>S.B2 <span class="hljs-keyword">and</span> …… <span class="hljs-keyword">and</span> R.Bk<span class="hljs-operator">=</span>S.Bk<br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>映像语句</p>
+<ul>
+<li><p>目标子句：<code>SELECT *|colname &#123;, colname ...&#125;</code></p>
+</li>
+<li><p>范围子句：<code>FROM tablename &#123;, tablename ...&#125;</code></p>
+</li>
+<li><p>条件子句：<code>[WHERE search_condition]</code></p>
+</li>
+<li><p>分组子句：<code>[GROUP BY colname &#123;, colname ...&#125;</code></p>
+</li>
+<li><p>分组查询子句：<code>[HAVING group_condition]]</code></p>
+</li>
+<li><p>排序输出子句：<code>[ORDER BY colname [ASC | DESC]&#123;, colname [ASC | DESC]...&#125;];</code></p>
+</li>
+</ul>
+</li>
+</ul>
+<p>插入、删除、修改</p>
+<p>作为自含式语言还具有如下功能：</p>
+<p>赋值功能</p>
+<p>计算功能</p>
+<p>•简单的四则运算</p>
+<p>•统计计算</p>
+<p>«求总数</p>
+<p>«求和、求平均值</p>
+<p>«求最大值、求最小值</p>
+<p>•分组统计</p>
+<p>输入**&#x2F;**出功能</p>
 
                 
               </div>
