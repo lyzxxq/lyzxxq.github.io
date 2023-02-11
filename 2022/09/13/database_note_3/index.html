@@ -24,7 +24,7 @@
 <meta property="og:description" content="一、关系数据库系统的优点1. 数据结构简单 关系数据库系统中的数据结构：二维表  2. 用户使用方便 不涉及系统的内部物理结构 非过程性数据子语言  3. 功能强 模型的表达能力强，具有一定的模型修改功能 可方便地修改数据间的联系 可灵活选择数据存取路径 高级的数据操纵语言  4. 数据独立性高 数据的逻辑结构不涉及物理因素 操作的非过程性  5. 理论基础深 关系数据库系统一般建立在逻辑与代数基">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-09-13T10:00:00.000Z">
-<meta property="article:modified_time" content="2023-02-11T13:58:20.912Z">
+<meta property="article:modified_time" content="2023-02-11T14:22:37.510Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="数据库">
 <meta name="twitter:card" content="summary_large_image">
@@ -231,7 +231,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.5k 字
+          4.2k 字
         
       </span>
     
@@ -242,7 +242,7 @@
         
         
         
-          30 分钟
+          36 分钟
         
       </span>
     
@@ -702,7 +702,45 @@
 </ul>
 </li>
 </ul>
-<h4 id="3-联接-join-运算："><a href="#3-联接-join-运算：" class="headerlink" title="3. 联接 (join) 运算："></a>3. 联接 <strong>(join)</strong> 运算：</h4><p>（六）关系代数实例</p>
+<h4 id="3-联接-join-运算：-R-underset-F-Join-S"><a href="#3-联接-join-运算：-R-underset-F-Join-S" class="headerlink" title="3. 联接 (join) 运算：$R\underset{F}{\Join} S$"></a>3. 联接 <strong>(join)</strong> 运算：$R\underset{F}{\Join} S$</h4><ul>
+<li><p>设结果关系为$T$，则关系$T$与关系$R$和$S$的关系是：<strong>Head($T$) $&#x3D;$ Head($R$) $\cup_{all}$ Head($S$)</strong></p>
+</li>
+<li><p>从关系$R$和$S$中分别任取一个元组$r$和$s$，如果元组$r$和$s$之间满足联接条件$F$，那么可以由$r$和$s$合并构成结果关系$T$中的一个元组，即：$(r,s)\in T$</p>
+</li>
+<li><p>基本逻辑条件：$i\ \theta\ j$</p>
+<ul>
+<li>$i$是关系$R$中的属性，$j$是关系$S$中的属性</li>
+<li>$\theta$是比较运算符：大于联接，小于联接，等值联接</li>
+</ul>
+</li>
+<li><p>联接运算的推导公式<br>$$<br>R\underset{F}{\Join} S &#x3D; \sigma_F(R\times S)<br>$$</p>
+</li>
+<li><p>联接运算与笛卡儿乘积运算的关系</p>
+<ul>
+<li>设$T_1 &#x3D; R \times S$，$T_2 &#x3D; R\underset{F}{\Join} S$，则：**Head($T_2$) $&#x3D;$ Head($T_1$) 且$T_2\subseteq T_1$</li>
+</ul>
+</li>
+</ul>
+<h4 id="4-自然联接-natural-join-运算：-R-Join-S"><a href="#4-自然联接-natural-join-运算：-R-Join-S" class="headerlink" title="4. 自然联接 (natural join) 运算：$R\Join S$"></a>4. 自然联接 <strong>(natural join)</strong> 运算：$R\Join S$</h4><ul>
+<li><p>功能：根据两个关系中的同名属性（公共属性）进行等值联接</p>
+</li>
+<li><p>运算条件：关系$R$和关系$S$有公共属性：**Head($R$) $\cap$ Head($S$) $\neq\varnothing$</p>
+</li>
+<li><p>运算结果</p>
+<ul>
+<li><p>结果关系的属性集合为<strong>Head($R$) $\cup$ Head($S$)</strong></p>
+</li>
+<li><p>结果关系中的元组：</p>
+<ul>
+<li><p>从关系$R$和关系$S$中分别任取一个元组$r$和$s$，如果元组$r$和元组$s$在它们的同名属性上的取值都相等，那么可以由$r$和$s$合并构成结果关系中的一个元组</p>
+</li>
+<li><p>同名属性上的取值在结果关系中只保留一份</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 
                 
               </div>
