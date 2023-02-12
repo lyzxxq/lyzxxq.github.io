@@ -25,8 +25,11 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/img/posts/DB-5-1.jpg">
 <meta property="og:image" content="http://example.com/img/posts/DB-5-2.jpg">
+<meta property="og:image" content="http://example.com/img/posts/DB-5-3.jpg">
+<meta property="og:image" content="http://example.com/img/posts/DB-5-4.jpg">
+<meta property="og:image" content="http://example.com/img/posts/DB-5-5.jpg">
 <meta property="article:published_time" content="2022-11-19T02:00:00.000Z">
-<meta property="article:modified_time" content="2023-02-12T06:48:44.647Z">
+<meta property="article:modified_time" content="2023-02-12T09:39:18.894Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="数据库">
 <meta name="twitter:card" content="summary_large_image">
@@ -234,7 +237,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.9k 字
+          7.7k 字
         
       </span>
     
@@ -245,7 +248,7 @@
         
         
         
-          33 分钟
+          65 分钟
         
       </span>
     
@@ -328,7 +331,7 @@
 </li>
 </ul>
 </li>
-<li><p>事务执行的‘一致性’原则基于这样一个假设：</p>
+<li><p>事务执行的<strong>一致性</strong>原则基于这样一个假设：</p>
 <ul>
 <li>在一个事务开始执行之前数据库处于一个一致的状态，如果没有<strong>其它事务的干扰和系统故障</strong>，那么当该事务执行结束时数据库仍然处于一致的状态</li>
 </ul>
@@ -448,7 +451,7 @@
 <li><p>不论是<strong>提交</strong>状态，还是<strong>异常中止</strong>状态，都意味着一个事务的执行结束</p>
 </li>
 </ul>
-<h3 id="（三）有关事务的语句"><a href="#（三）有关事务的语句" class="headerlink" title="（三）有关事务的语句"></a>（三）有关事务的语句</h3><h4 id="1-事务的开始-begin-transaction"><a href="#1-事务的开始-begin-transaction" class="headerlink" title="1. 事务的开始**(begin transaction)**"></a>1. 事务的开始**(begin transaction)**</h4><ul>
+<h3 id="（三）有关事务的语句"><a href="#（三）有关事务的语句" class="headerlink" title="（三）有关事务的语句"></a>（三）有关事务的语句</h3><h4 id="1-事务的开始-begin-transaction"><a href="#1-事务的开始-begin-transaction" class="headerlink" title="1. 事务的开始(begin transaction)"></a>1. 事务的开始(begin transaction)</h4><ul>
 <li><p>现有的关系数据库管理系统并没有提供一个用于定义从什么时候开始一个事务的控制语句，事务的启动是隐式的</p>
 </li>
 <li><p>可以通过三种方式来启动一个新的事务：</p>
@@ -493,7 +496,7 @@
 </ul>
 </li>
 </ul>
-<h4 id="3-与事务有关的控制命令-DCL"><a href="#3-与事务有关的控制命令-DCL" class="headerlink" title="3. 与事务有关的控制命令**(DCL)**"></a>3. 与事务有关的控制命令**(DCL)**</h4><ul>
+<h4 id="3-与事务有关的控制命令-DCL"><a href="#3-与事务有关的控制命令-DCL" class="headerlink" title="3. 与事务有关的控制命令(DCL)"></a>3. 与事务有关的控制命令(DCL)</h4><ul>
 <li><p>设置事务的自动提交命令</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SET</span> AUTO <span class="hljs-keyword">COMMIT</span> <span class="hljs-keyword">ON</span>｜OFF<br></code></pre></td></tr></table></figure>
 </li>
@@ -591,6 +594,319 @@
 </ul>
 <h4 id="3-并发控制的目标"><a href="#3-并发控制的目标" class="headerlink" title="3. 并发控制的目标"></a>3. 并发控制的目标</h4><ul>
 <li>实现并发事务的可串行化调度</li>
+</ul>
+<p><img src="/img/posts/DB-5-3.jpg" srcset="/img/loading.gif" lazyload alt="这是图片" title="用户事务并发执行示意图"></p>
+<h4 id="4-调度"><a href="#4-调度" class="headerlink" title="4. 调度"></a>4. 调度</h4><ul>
+<li>一个或多个事务中的数据库访问操作，按照这些操作被执行的时间排序所形成的一个操作序列</li>
+</ul>
+<h4 id="5-数据库访问操作"><a href="#5-数据库访问操作" class="headerlink" title="5. 数据库访问操作"></a>5. 数据库访问操作</h4><ul>
+<li><p>用户事务对于数据库的访问操作包括<strong>READ</strong>和<strong>WRITE</strong>，这是事务对数据库缓冲区中的数据的<strong>读</strong>和<strong>写</strong>操作。</p>
+</li>
+<li><p>驻留在内存缓冲区中的同一个数据对象<strong>A</strong>，有可能同时被若干个事务<strong>读</strong>或<strong>写</strong>。我们在考虑一个<strong>调度</strong>时，最关心的是这一组事务以一种什么样的顺序来<strong>读&#x2F;写</strong>内存缓冲区中的数据</p>
+</li>
+<li><p>同一个事务的一组<strong>读&#x2F;写</strong>操作在<strong>调度</strong>中的执行顺序是固定不变的，但是并发事务的不同交叉执行方式就构成了不同的<strong>调度</strong></p>
+</li>
+</ul>
+<h4 id="6-串行调度"><a href="#6-串行调度" class="headerlink" title="6. 串行调度"></a>6. 串行调度</h4><ul>
+<li><p>如果一个调度的操作组成方式如下：首先是一个事务的所有操作，然后是另一个事务的所有操作，依此类推，则我们称该调度是串行的，或称为<strong>串行调度</strong></p>
+</li>
+<li><p>每一个事务中的所有操作，都是按照其预定的顺序依次执行的</p>
+</li>
+<li><p>任何一个串行调度均具有以下性质</p>
+<ul>
+<li><p>在该调度中任意取两个事务<strong>X</strong>和<strong>Y</strong>，如果<strong>X</strong>的某个操作在<strong>Y</strong>的某个操作之前，则<strong>X</strong>的所有操作都在<strong>Y</strong>的所有操作之前</p>
+<ul>
+<li>不存在不同事务之间的交叉执行现象</li>
+</ul>
+</li>
+<li><p>并发事务的串行调度执行方式不会破坏数据库状态的一致性</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="7-可串行化调度"><a href="#7-可串行化调度" class="headerlink" title="7. 可串行化调度"></a>7. 可串行化调度</h4><ul>
+<li><p>每个串行调度都将保持数据库状态的一致性。但也存在其它的调度（非串行调度）能够保证数据库状态的一致性</p>
+</li>
+<li><p>如果一个调度对数据库状态的影响和某个串行调度相同，则我们称该调度是可串行化的，或称为<strong>可串行化调度</strong></p>
+</li>
+</ul>
+<h4 id="8-冲突可串行化"><a href="#8-冲突可串行化" class="headerlink" title="8. 冲突可串行化"></a>8. 冲突可串行化</h4><h5 id="（1）冲突"><a href="#（1）冲突" class="headerlink" title="（1）冲突"></a>（1）冲突</h5><ul>
+<li><p>是指调度中的一对连续操作 (op1; op2)，它们满足如下的条件：</p>
+<ul>
+<li>如果交换它们两者的执行顺序，那么涉及的事务中至少有一个的行为会改变</li>
+</ul>
+</li>
+<li><p>符合上述条件的一对连续的操作 (op1; op2) 被称为<strong>冲突</strong></p>
+</li>
+</ul>
+<h5 id="（2）冲突的判断"><a href="#（2）冲突的判断" class="headerlink" title="（2）冲突的判断"></a>（2）冲突的判断</h5><ul>
+<li><p>假设$T_i$和$T_j$是两个不同的事务（即$i\neq j$），则：</p>
+<ul>
+<li>$r_i(X);r_j(Y)$不是冲突（即使$X&#x3D;Y$ 也不会是冲突）</li>
+<li>如果$X\neq Y$，则 $r_i(X);w_j(Y) $ 不会是冲突</li>
+<li>如果$X\neq Y$，则 $w_i(X);r_j(Y) $ 不会是冲突</li>
+<li>如果$X\neq Y$，则 $w_i(X);w_j(Y) $ 不会是冲突</li>
+</ul>
+</li>
+<li><p>同一事务的任意两个相邻的操作都是冲突，如：</p>
+<ul>
+<li>$(r_i(X);w_i(Y))$、$(w_i(X);r_i(Y))$、$(r_i(X);r_i(Y))$等</li>
+</ul>
+</li>
+<li><p>不同事务对同一数据对象的<strong>写</strong>冲突：</p>
+<ul>
+<li>$w_i(X);w_j(X)$</li>
+</ul>
+</li>
+<li><p>不同事务对同一数据对象的<strong>读-写</strong>冲突：</p>
+<ul>
+<li>$r_i(X);w_j(X)\quad w_i(X);r_j(X)$</li>
+</ul>
+</li>
+<li><p>因此</p>
+<ul>
+<li>同一事务中的任意两个操作不可以交换它们的执行顺序（是冲突）</li>
+<li>不同事务中的任何两个操作在执行顺序上是可以交换的，除非：<ul>
+<li>它们涉及同一个数据对象；并且</li>
+<li>至少有一个是<strong>写</strong>操作</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>对于初始给定的一个调度，如果通过一组<strong>非冲突</strong>操作的交换，能够将该调度转换为一个串行调度，则我们认为最初的调度就是一个可串行化调度</p>
+</li>
+</ul>
+<h5 id="（3）冲突等价"><a href="#（3）冲突等价" class="headerlink" title="（3）冲突等价"></a>（3）冲突等价</h5><ul>
+<li>如果通过一系列相邻操作的非冲突交换能够将一个调度转换为另一个调度，则我们称这两个调度是冲突等价的</li>
+</ul>
+<h5 id="（4）冲突可串行化"><a href="#（4）冲突可串行化" class="headerlink" title="（4）冲突可串行化"></a>（4）冲突可串行化</h5><ul>
+<li>如果一个调度 S 冲突等价于一个串行调度，则我们称调度 S 是<strong>冲突可串行化</strong>的</li>
+</ul>
+<h5 id="（5）优先图"><a href="#（5）优先图" class="headerlink" title="（5）优先图"></a>（5）优先图</h5><ul>
+<li><p>思想：冲突操作反映了给定事务在冲突等价的串行调度（如果存在的话）中的执行顺序</p>
+</li>
+<li><p>定义：已知在调度 $S$ 中存在两个事务 $T_1$ 和 $T_2 $，如果有 $T_1$ 的一个动作 $A_1$  和  $T_2 $ 的一个动作  $A_2 $ 满足：</p>
+<ul>
+<li>在调度 $S$ 中 $A_1$ 在 $A_2$ 前</li>
+<li>$A_1$ 和 $A_2$ 涉及数据库中的同一数据对象，且至少有一个是<strong>写</strong>动作</li>
+</ul>
+<p>则我们称 $T_1$ 优先于 $T_2$ ，记为 $T_1&lt;_s T_2$</p>
+</li>
+<li><p>在上述情况下， $A_1$ 和 $A_2$ 是两个不能交换的动作，如果存在一个冲突等价于 $S$ 的串行调度，则在该串行调度中 $T_1$ 必在 $T_2$ 之前</p>
+</li>
+<li><p>以调度 $S$ 中的事务作为优先图中的结点（事务 $T_i$ 可简记为 $i$ ），如果$T_i&lt;_s T_j$，则从结点 $i$ 到结点 $j$ 引一条有向边。依此类推构成的一个有向图被称为调度 $S$ 的事务优先图。</p>
+<ul>
+<li><p>例：$r_2 (A); r_1 (B); w_2 (A); r_2 (B); r_3 (A); w_1 (B); w_3 (A); w_2 (B)$</p>
+<ul>
+<li><p>第一步：从调度 $S$ 中找出所有与数据对象 A 有关的操作<br>$$<br>r_2 (A); w_2 (A); r_3 (A); w_3 (A);<br>$$</p>
+<ul>
+<li>根据冲突 $(w_2(A);r_3(A))$ 可知：存在从事务 2 到事务 3 的一条有向边</li>
+</ul>
+</li>
+<li><p>第二步：从调度 $S$​ 中找出所有与数据对象 B 有关的操作<br>$$<br>r_1 (B); r_2 (B); w_1 (B); w_2 (B);<br>$$</p>
+<ul>
+<li>根据冲突 $(r_2(B);w_1(B))$ 可知：存在从事务 2 到事务 1 的一条有向边</li>
+<li>根据冲突 $(w_1(B);w_2(B))$ 可知：存在从事务 1 到事务 2 的一条有向边</li>
+</ul>
+</li>
+<li><p>因此其优先图是：$1\rightleftharpoons2 \to 3$</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="（6）冲突可串行性判断规则"><a href="#（6）冲突可串行性判断规则" class="headerlink" title="（6）冲突可串行性判断规则"></a>（6）冲突可串行性判断规则</h5><ul>
+<li>构造调度 $S$ 的事务优先图，如果该图是无环的，则调度 $S$ 是冲突可串行化的。如果有环，则调度 $S$ 不是冲突可串行化的</li>
+</ul>
+<h4 id="9-三种数据不一致现象"><a href="#9-三种数据不一致现象" class="headerlink" title="9. 三种数据不一致现象"></a>9. 三种数据不一致现象</h4><h5 id="（1）丢失修改（-lost-updata-）"><a href="#（1）丢失修改（-lost-updata-）" class="headerlink" title="（1）丢失修改（ lost updata ）"></a>（1）丢失修改（ lost updata ）</h5><ul>
+<li><p>现象：一个事务的修改结果破坏了另一个事务的修改结果</p>
+</li>
+<li><p>原因：对多个事务并发修改同一个数据对象的情况未加控制</p>
+</li>
+</ul>
+<h5 id="（2）脏读（-dirty-read-）"><a href="#（2）脏读（-dirty-read-）" class="headerlink" title="（2）脏读（ dirty read ）"></a>（2）脏读（ dirty read ）</h5><ul>
+<li><p>现象：读到了错误的数据（即与数据库中的情况不相符的数据）</p>
+</li>
+<li><p>原因：一个事务读取了另一个事务未提交的修改结果</p>
+</li>
+</ul>
+<h5 id="（3）不可重复读（-non-repeatable-read-）"><a href="#（3）不可重复读（-non-repeatable-read-）" class="headerlink" title="（3）不可重复读（ non-repeatable read ）"></a>（3）不可重复读（ non-repeatable read ）</h5><ul>
+<li><p>现象：在一个事务的执行过程中，前后两次读同一个数据对象所获得的值出现了不一致</p>
+</li>
+<li><p>原因：在两次<strong>读</strong>操作之间插入了另一个事务的<strong>写</strong>操作</p>
+</li>
+</ul>
+<h3 id="（二）封锁"><a href="#（二）封锁" class="headerlink" title="（二）封锁"></a>（二）封锁</h3><h4 id="1-封锁（lock）"><a href="#1-封锁（lock）" class="headerlink" title="1. 封锁（lock）"></a>1. 封锁（lock）</h4><ul>
+<li><p>使用封锁技术的前提</p>
+<ul>
+<li>在一个事务访问数据库中的数据时，必须先获得被访问的数据对象上的封锁，以保证数据访问操作的正确性和一致性。</li>
+</ul>
+</li>
+<li><p>封锁的作用</p>
+<ul>
+<li><p>在一段时间内禁止其它事务在被封锁的数据对象上执行某些类型的操作（由封锁的类型决定）</p>
+</li>
+<li><p>同时也表明：持有该封锁的事务在被封锁的数据对象上将要执行什么类型的操作（由系统所采用的封锁协议来决定）</p>
+</li>
+</ul>
+</li>
+<li><p><strong>封锁</strong>是多用户环境中最常采用的一种并发控制技术</p>
+</li>
+</ul>
+<h4 id="2-封锁类型"><a href="#2-封锁类型" class="headerlink" title="2. 封锁类型"></a>2. 封锁类型</h4><h5 id="（1）排它锁"><a href="#（1）排它锁" class="headerlink" title="（1）排它锁"></a>（1）排它锁</h5><ul>
+<li><p>e<strong>X</strong>clusive lock，又简称为：<strong>X</strong>锁</p>
+</li>
+<li><p>特性</p>
+<ul>
+<li>只有当数据对象 A 没有被其它事务封锁时，事务 T 才能在数据对象 A 上施加 <strong>X 锁</strong></li>
+<li>如果事务 T 对数据对象 A 施加了 <strong>X 锁</strong>，则其它任何事务都不能在数据对象 A 上再施加任何类型的封锁</li>
+</ul>
+</li>
+<li><p>作用</p>
+<ul>
+<li><p>如果一个事务 T 申请在数据对象 A 上施加 <strong>X锁</strong> 并得到满足，则：事务 T 自身可以对数据对象 A 作读、写操作，而其它事务则被禁止访问数据对象 A</p>
+</li>
+<li><p>这样可以让事务 T 独占该数据对象 A ，从而保证了事务 T 对数据对象 A 的访问操作的正确性和一致性</p>
+</li>
+<li><p>缺点：降低了整个系统的并行性</p>
+</li>
+</ul>
+</li>
+<li><p><strong>X锁</strong> 必须维持到事务 T 的执行结束</p>
+</li>
+</ul>
+<h5 id="（2）共享锁"><a href="#（2）共享锁" class="headerlink" title="（2）共享锁"></a>（2）共享锁</h5><ul>
+<li><p><strong>S</strong>haring lock，又简称为：<strong>S</strong>锁</p>
+</li>
+<li><p>特性</p>
+<ul>
+<li>如果数据对象 A 没有被其它事务封锁，或者其它事务仅仅以 <strong>S锁</strong> 的方式来封锁数据对象 A 时，事务 T 才能在数据对象 A 上施加 <strong>S锁</strong></li>
+</ul>
+</li>
+<li><p>作用</p>
+<ul>
+<li>如果一个事务 T 申请在数据对象 A 上施加 <strong>S锁</strong> 并得到满足，则： 事务 T 可以 <strong>读</strong> 数据对象 A 但不能 <strong>写</strong> 数据对象 A</li>
+<li>不同事务所申请的 <strong>S锁</strong> 可以共存于同一个数据对象 A 上，从而保证了多个事务可以同时 读 数据对象 A ，有利于提高整个系统的并发性</li>
+<li>在持有封锁的事务释放数据对象 A 上的所有 <strong>S锁</strong>之前，任何事务都不能 <strong>写</strong> 数据对象 A</li>
+</ul>
+</li>
+<li><p><strong>S锁</strong> 不必维持到事务 T 的执行结束（依封锁协议而定）</p>
+</li>
+</ul>
+<h5 id="（3）锁相容矩阵"><a href="#（3）锁相容矩阵" class="headerlink" title="（3）锁相容矩阵"></a>（3）锁相容矩阵</h5><table style="text-align: center;">
+  <tr>
+    <td rowspan="2" colspan="2"></td>
+    <th colspan="3">其他事务已持有的锁</th>
+  </tr >
+  <tr>
+    <th>X锁</th>
+    <th>S锁</th>
+    <th>-</th>
+  </tr >
+  <tr >
+    <td rowspan="2">当前事物申请的锁</td>
+    <td>X锁</td>
+    <td>No</td>
+    <td>No</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>S锁</td>
+    <td>No</td>
+    <td>Yes</td>
+    <td>Yes</td>
+  </tr>
+</table>
+
+<h4 id="3-合适-well-formed-事务"><a href="#3-合适-well-formed-事务" class="headerlink" title="3. 合适 (well formed) 事务"></a>3. 合适 (well formed) 事务</h4><ul>
+<li>如果一个事务在访问数据库中的数据对象 A 之前按照要求申请对 A 的封锁，在操作结束后释放 A 上的封锁，这种事务被称为合适事务</li>
+<li><strong>合适事务</strong>是保证并发事务的正确执行的基本条件</li>
+</ul>
+<h4 id="4-封锁的申请与释放"><a href="#4-封锁的申请与释放" class="headerlink" title="4. 封锁的申请与释放"></a>4. 封锁的申请与释放</h4><ul>
+<li><p>封锁管理器的数据结构</p>
+<ul>
+<li><p>数组<strong>LOCK(A)</strong></p>
+<ul>
+<li>记录被施加在数据对象 A 上的封锁类型，其值是：<ul>
+<li><strong>Read_locked</strong>（共享锁）</li>
+<li><strong>Write_locked</strong>（排它锁）</li>
+<li><strong>Unlocked</strong>（无封锁）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>数组<strong>no_of_reads(A)</strong></p>
+<ul>
+<li>记录被施加在数据对象 A 上的共享锁的个数</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="（三）封锁协议"><a href="#（三）封锁协议" class="headerlink" title="（三）封锁协议"></a>（三）封锁协议</h3><h4 id="1-一级封锁协议"><a href="#1-一级封锁协议" class="headerlink" title="1. 一级封锁协议"></a>1. 一级封锁协议</h4><ul>
+<li>事务 T 在<strong>写</strong>数据对象 A 之前，必须先申请并获得 A 上的 <strong>X锁</strong>，并维持到事务 T 的执行结束（包括Commit与Rollback）才释放被加在 A 上的 <strong>X锁</strong></li>
+</ul>
+<h4 id="2-二级封锁协议"><a href="#2-二级封锁协议" class="headerlink" title="2. 二级封锁协议"></a>2. 二级封锁协议</h4><ul>
+<li><p><strong>一级封锁协议</strong>的要求；并且</p>
+</li>
+<li><p>事务 T 在<strong>读</strong>数据对象 A 之前，必须先申请并获得 A 上的 <strong>S锁</strong>，在<strong>读</strong>操作完成后即可释放 A 上的 <strong>S锁</strong></p>
+<ul>
+<li>这里没有规定释放 <strong>S锁</strong> 的时间</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-三级封锁协议"><a href="#3-三级封锁协议" class="headerlink" title="3. 三级封锁协议"></a>3. 三级封锁协议</h4><ul>
+<li><strong>一级封锁协议</strong>的要求；并且</li>
+<li>事务 T 在<strong>读</strong>数据对象 A 之前，必须先申请并获得 A上的 <strong>S锁</strong>，并维持到事务 T 的执行结束（包括Commit 与 Rollback）才释放被加在 A 上的 <strong>S锁</strong></li>
+</ul>
+<h4 id="4-三级封锁协议与三种数据不一致现象的关系"><a href="#4-三级封锁协议与三种数据不一致现象的关系" class="headerlink" title="4. 三级封锁协议与三种数据不一致现象的关系"></a>4. 三级封锁协议与三种数据不一致现象的关系</h4><table style="text-align: center;">
+  <tr>
+    <td rowspan="2" colspan="2"></td>
+    <th colspan="3">可能出现的数据不一致现象</th>
+  </tr >
+  <tr>
+    <th>丢失修改</th>
+    <th>脏读</th>
+    <th>不可重复读</th>
+  </tr >
+  <tr >
+    <td rowspan="3">封锁协议</td>
+    <td>一级封锁协议</td>
+    <td>No</td>
+    <td>Yes</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>二级封锁协议</td>
+    <td>No</td>
+    <td>No</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>三级封锁协议</td>
+    <td>No</td>
+    <td>No</td>
+    <td>No</td>
+  </tr>
+</table>
+
+<h3 id="（四）两阶段封锁协议"><a href="#（四）两阶段封锁协议" class="headerlink" title="（四）两阶段封锁协议"></a>（四）两阶段封锁协议</h3><h4 id="1-两阶段封锁协议（two-phase-locking-protocol，简称2PL协议）"><a href="#1-两阶段封锁协议（two-phase-locking-protocol，简称2PL协议）" class="headerlink" title="1. 两阶段封锁协议（two-phase locking protocol，简称2PL协议）"></a>1. 两阶段封锁协议（two-phase locking protocol，简称2PL协议）</h4><h5 id="（1）第一个阶段：申请并获得封锁"><a href="#（1）第一个阶段：申请并获得封锁" class="headerlink" title="（1）第一个阶段：申请并获得封锁"></a>（1）第一个阶段：申请并获得封锁</h5><ul>
+<li>在此阶段中，事务可以申请其整个执行过程中所需要的锁，此阶段也可称为<strong>扩展阶段</strong></li>
+</ul>
+<h5 id="（2）第二个阶段：释放所有申请获得的锁"><a href="#（2）第二个阶段：释放所有申请获得的锁" class="headerlink" title="（2）第二个阶段：释放所有申请获得的锁"></a>（2）第二个阶段：释放所有申请获得的锁</h5><ul>
+<li>事务一旦开始释放封锁，那么就不能再申请任何封锁，此阶段也可称为<strong>收缩阶段</strong></li>
+</ul>
+<h4 id="2-两阶段封锁事务"><a href="#2-两阶段封锁事务" class="headerlink" title="2. 两阶段封锁事务"></a>2. 两阶段封锁事务</h4><ul>
+<li><p>在一个事务 T 中，如果所有的封锁请求都先于所有的解锁请求，则该事务被称为<strong>两阶段封锁事务</strong>，简称<strong>2PL事务</strong></p>
+</li>
+<li><p>用 sl(A) 表示申请对 A 的 <strong>S锁</strong>，用 xl(A) 表示申请对 A 的 <strong>X 锁</strong>，用 u(A) 表示释放 A 上的封锁</p>
+</li>
+<li><p>2PL 事务的例子</p>
+<div align=center><img src="/img/posts/DB-5-4.jpg" srcset="/img/loading.gif" lazyload title="2PL 事务的例子" height="50%" width="50%" /></div>
+</li>
+<li><p>不遵守 2PL 协议的例子</p>
+<div align=center><img src="/img/posts/DB-5-5.jpg" srcset="/img/loading.gif" lazyload title="不遵守 2PL 协议的例子" height="50%" width="50%" /></div></li>
 </ul>
 
                 
