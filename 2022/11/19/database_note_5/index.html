@@ -29,7 +29,7 @@
 <meta property="og:image" content="http://example.com/img/posts/DB-5-4.jpg">
 <meta property="og:image" content="http://example.com/img/posts/DB-5-5.jpg">
 <meta property="article:published_time" content="2022-11-19T02:00:00.000Z">
-<meta property="article:modified_time" content="2023-02-12T09:39:18.894Z">
+<meta property="article:modified_time" content="2023-02-12T11:32:36.595Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="数据库">
 <meta name="twitter:card" content="summary_large_image">
@@ -237,7 +237,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          7.7k 字
+          14k 字
         
       </span>
     
@@ -248,7 +248,7 @@
         
         
         
-          65 分钟
+          119 分钟
         
       </span>
     
@@ -561,6 +561,43 @@
 </li>
 <li><p>不管采用何种隔离级别，在事务<strong>写</strong>数据对象 A 之前需要先申请对数据对象 A 的<strong>排它性</strong>封锁，并将该封锁维持到当前事务的结束。</p>
 </li>
+<li><p>事务的隔离级别与封锁策略之间的关系</p>
+<table style="text-align: center;">
+  <tr>
+    <td rowspan="2"></td>
+    <th colspan="2">Read操作</th>
+    <th colspan="2">Write操作</th>
+  </tr >
+  <tr>
+    <th>锁类型</th>
+    <th>封锁时间</th>
+    <th>锁类型</th>
+    <th>封锁时间</th>
+  </tr >
+  <tr >
+    <td>READUNCOMMITTED 未提交读</td>
+    <td>No Lock</td>
+    <td>-</td>
+    <td colspan="2">不允许执行 Write 操作</th>
+  </tr>
+  <tr>
+    <td>READCOMMITTED 提交读</td>
+    <td>共享锁</td>
+    <td>读操作</td>
+    <td rowspan="3">排它锁</th>
+        <td rowspan="3">事务</th>
+  </tr>
+  <tr>
+    <td>READREPEATABLE 可重复读</td>
+    <td>共享锁</td>
+    <td>事务</td>
+  </tr>
+  <tr>
+    <td>SERIALIZABLE 可串行化</td>
+    <td>共享锁</td>
+    <td>事务</td>
+  </tr>
+</table></li>
 </ul>
 </li>
 </ul>
@@ -805,7 +842,7 @@
     <th>-</th>
   </tr >
   <tr >
-    <td rowspan="2">当前事物申请的锁</td>
+    <td rowspan="2">当前事务申请的锁</td>
     <td>X锁</td>
     <td>No</td>
     <td>No</td>
@@ -903,10 +940,663 @@
 <li><p>用 sl(A) 表示申请对 A 的 <strong>S锁</strong>，用 xl(A) 表示申请对 A 的 <strong>X 锁</strong>，用 u(A) 表示释放 A 上的封锁</p>
 </li>
 <li><p>2PL 事务的例子</p>
-<div align=center><img src="/img/posts/DB-5-4.jpg" srcset="/img/loading.gif" lazyload title="2PL 事务的例子" height="50%" width="50%" /></div>
+<div align=center><img src="/img/posts/DB-5-4.jpg" srcset="/img/loading.gif" lazyload title="2PL 事务的例子" height="75%" width="75%" /></div>
 </li>
 <li><p>不遵守 2PL 协议的例子</p>
-<div align=center><img src="/img/posts/DB-5-5.jpg" srcset="/img/loading.gif" lazyload title="不遵守 2PL 协议的例子" height="50%" width="50%" /></div></li>
+<div align=center><img src="/img/posts/DB-5-5.jpg" srcset="/img/loading.gif" lazyload title="不遵守 2PL 协议的例子" height="75%" width="75%" /></div></li>
+</ul>
+<h4 id="3-有关封锁技术的使用规定"><a href="#3-有关封锁技术的使用规定" class="headerlink" title="3. 有关封锁技术的使用规定"></a>3. 有关封锁技术的使用规定</h4><ul>
+<li><p>假设系统采用 <strong>X 锁</strong> 和 <strong>S 锁</strong> 两种类型锁，有关封锁的申请与释放操作表示如下：</p>
+<ul>
+<li>$sl_i(A)$：事务 $T_i$ 申请数据对象 $A$ 上的一个 <strong>S 锁</strong></li>
+<li>$xl_i(A)$：事务 $T_i$ 申请数据对象 $A$ 上的一个 <strong>X 锁</strong></li>
+<li>也可以用 $l_i(A)$ 表示事务 $T_i$ 申请数据对象 $A$ 上的锁</li>
+<li>$u_i(A)$：事务 $T_i$ 释放自己在数据对象 $A$ 上所持有的锁</li>
+</ul>
+</li>
+<li><p>在每一个事务$T_i$中</p>
+<ul>
+<li><p>第1点 ：采用如下的封锁协议</p>
+<ul>
+<li>读动作 $r_i (A) $之前必须有 $sl_i (A)$ 或 $xl_i ( A)$，而且在两者之间没有 $u_i(A)$</li>
+<li>写动作 $w_i (A)$ 之前必须有 $xl_i (A)$，而且在两者之间没有 $u_i(A)$</li>
+<li>每一个 $sl_i (A)$ 或 $xl_i (A)$ 之后必须有一个 $u_i(A)$</li>
+</ul>
+</li>
+<li><p>第2点：必须遵循<strong>两阶段封锁协议</strong></p>
+<ul>
+<li><p>在任何$sl_i(A)$或$xl_i(A)$之前不能有$u_i(B)$</p>
+</li>
+<li><p>$A$和$B$可以是同一个数据对象</p>
+</li>
+</ul>
+</li>
+<li><p>如果事务 $T_i$ 在执行过程中重复申请同一个数据对象 $A$ 上的锁， <strong>封锁管理器</strong> 的处理方法如下：</p>
+<ul>
+<li>如果 $T_i$ 已经持有数据对象 $A$ 上的锁，则对 $sl_i(A)$不作任何处理</li>
+<li>如果 $T_i$ 已经持有数据对象 $A$ 上的 **S 锁 **，在处理$xl_i(A)$请求时，仅仅将 $T_i$ 所持有的 <strong>S 锁</strong> 改为 <strong>X 锁</strong><ul>
+<li>仅当 <strong>只有</strong> 事务 $T_i$ 持有数据对象 $A$ 上的 <strong>S 锁</strong> 时，封锁管理器才能将 $T_i$ 所持有的 <strong>S 锁</strong> 改为 <strong>X 锁</strong></li>
+</ul>
+</li>
+<li>如果 $T_i$ 已经持有数据对象 $A$ 上的 <strong>X 锁</strong>，则对 $xl_i(A)$不作任何处理</li>
+</ul>
+</li>
+<li><p>第3点：保证事务调度的合法性</p>
+<ul>
+<li><p>对任意两个不同的事务 $T_i$ 和 $T_j$ ，其调度必须满足：</p>
+<ul>
+<li><p>如果$xl_i(A)$出现在调度中，那么后面不能再有$sl_j(A)$或$xl_j(A)$，除非中间插入了$u_i(A)$</p>
+</li>
+<li><p>如果$sl_i(A)$出现在调度中，那么后面不能再有$xl_j(A)$，除非中间插入了$u_i(A)$</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="4-定理"><a href="#4-定理" class="headerlink" title="4. 定理"></a>4. 定理</h4><ul>
+<li>由 2PL 事务所构成的任意合法调度 S 都是冲突可串行化的</li>
+</ul>
+<h3 id="（五）封锁粒度"><a href="#（五）封锁粒度" class="headerlink" title="（五）封锁粒度"></a>（五）封锁粒度</h3><h4 id="1-封锁粒度（Granularity）"><a href="#1-封锁粒度（Granularity）" class="headerlink" title="1. 封锁粒度（Granularity）"></a>1. 封锁粒度（Granularity）</h4><ul>
+<li><p>一把锁可以封锁的数据对象的大小</p>
+</li>
+<li><p>锁的封锁对象可以是数据库中的逻辑数据单元，也可以是物理数据单元</p>
+</li>
+<li><p>以关系数据库系统为例，可以采用的封锁粒度有：</p>
+<ul>
+<li><p>逻辑数据单元</p>
+<ul>
+<li>属性值（集合），元组，关系</li>
+<li>索引项，索引文件</li>
+<li>整个数据库</li>
+</ul>
+</li>
+<li><p>物理数据单元</p>
+<ul>
+<li>页，块</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>封锁粒度</strong> 与 <strong>并发控制的开销</strong> 的关系</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">封锁粒度</th>
+<th align="center">系统并发度</th>
+<th align="center">并发控制的开销</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">大</td>
+<td align="center">低</td>
+<td align="center">小</td>
+</tr>
+<tr>
+<td align="center">小</td>
+<td align="center">高</td>
+<td align="center">大</td>
+</tr>
+</tbody></table>
+<h4 id="2-多粒度封锁（Multiple-Granularity-Locking）"><a href="#2-多粒度封锁（Multiple-Granularity-Locking）" class="headerlink" title="2. 多粒度封锁（Multiple Granularity Locking）"></a>2. 多粒度封锁（Multiple Granularity Locking）</h4><ul>
+<li><p>如果在一个系统中同时支持多种封锁粒度供事务选择使用，这种封锁方法被称为<strong>多粒度封锁</strong></p>
+</li>
+<li><p>通过选择合适的<strong>封锁粒度</strong>来达到如下目的：</p>
+<ul>
+<li>通过加大<strong>封锁粒度</strong>来减少<strong>锁</strong>的数量，降低并发控制的开销</li>
+<li>通过降低<strong>封锁粒度</strong>来缩小一把锁可以封锁的数据范围，减少封锁冲突现象，提高系统并发度</li>
+</ul>
+</li>
+<li><p>可以按照封锁粒度的大小构造出一棵<strong>多粒度树</strong>，以树中的每个结点作为封锁对象，可以构成一个 多粒度封锁协议</p>
+</li>
+<li><p>多粒度封锁协议</p>
+<ul>
+<li><p>可以对<strong>多粒度树</strong>中的每个结点独立加锁（显式封锁）</p>
+</li>
+<li><p>对一个结点加锁意味着该结点的所有后裔结点也被加以同样类型的锁（隐式封锁）</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-意向锁（Intention-Lock）"><a href="#3-意向锁（Intention-Lock）" class="headerlink" title="3. 意向锁（Intention Lock）"></a>3. 意向锁（Intention Lock）</h4><ul>
+<li><p><strong>意向锁</strong>的使用规定</p>
+<ul>
+<li><p>如果对一个结点加<strong>意向锁</strong>，则说明该结点的下层结点正在被加锁</p>
+</li>
+<li><p>对任一结点加锁时，必须先对它的上层结点加<strong>意向锁</strong></p>
+</li>
+</ul>
+</li>
+<li><p>三种常见的<strong>意向锁</strong></p>
+<ul>
+<li><p>意向共享锁（<strong>IS</strong>锁）</p>
+</li>
+<li><p>意向排它锁（<strong>IX</strong>锁）</p>
+</li>
+<li><p>共享意向排它锁（<strong>SIX</strong>锁）</p>
+</li>
+</ul>
+</li>
+<li><p>可以联合使用上述三种意向锁和原有的<strong>S锁</strong>、<strong>X锁</strong>共同实现基于封锁技术的并发控制</p>
+</li>
+<li><p>意向共享锁（ IS 锁）</p>
+<ul>
+<li>如果对结点 N 加 <strong>IS 锁</strong>，表示准备在结点 N 的某些后裔结点上加 <strong>S 锁</strong></li>
+</ul>
+</li>
+<li><p>意向排它锁（ IX 锁）</p>
+<ul>
+<li>如果对结点 N 加 <strong>IX 锁</strong>，表示准备在结点 N 的某些后裔结点上加 <strong>X 锁</strong></li>
+</ul>
+</li>
+<li><p>共享意向排它锁（ SIX 锁）</p>
+<ul>
+<li>如果对结点 N 加 <strong>SIX 锁</strong>，表示对结点 N 本身加 <strong>S 锁</strong>，并准备在 N 的某些后裔结点上加 <strong>X 锁</strong></li>
+</ul>
+</li>
+</ul>
+<table style="text-align: center;">
+  <tr>
+    <td rowspan="2" colspan="2"></td>
+    <th colspan="5">其他事务已持有的锁</th>
+  </tr >
+  <tr>
+    <th>S锁</th>
+    <th>X锁</th>
+    <th>IS锁</th>
+    <th>IX锁</th>
+    <th>SIX锁</th>
+  </tr >
+  <tr >
+    <td rowspan="5">当前事务申请的锁</td>
+    <td>S锁</td>
+    <td>Yes</td>
+    <td>No</td>
+    <td>Yes</td>
+    <td>No</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>X锁</td>
+    <td>No</td>
+    <td>No</td>
+    <td>No</td>
+    <td>No</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>IS锁</td>
+    <td>Yes</td>
+    <td>No</td>
+    <td>Yes</td>
+    <td>Yes</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>IX锁</td>
+    <td>No</td>
+    <td>No</td>
+    <td>Yes</td>
+    <td>Yes</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>SIX锁</td>
+    <td>No</td>
+    <td>No</td>
+    <td>Yes</td>
+    <td>No</td>
+    <td>No</td>
+  </tr>
+</table>
+
+<ul>
+<li>具有<strong>意向锁</strong>的多粒度封锁方法的优点<ul>
+<li>减少了 <strong>加锁</strong> 和 <strong>解锁</strong> 的开销</li>
+<li>提高了系统的并发度</li>
+</ul>
+</li>
+</ul>
+<h3 id="（六）活锁与死锁"><a href="#（六）活锁与死锁" class="headerlink" title="（六）活锁与死锁"></a>（六）活锁与死锁</h3><h4 id="1-死锁（deadlock）"><a href="#1-死锁（deadlock）" class="headerlink" title="1. 死锁（deadlock）"></a>1. 死锁（deadlock）</h4><ul>
+<li><p>每个事务都可能拥有一部分锁，并因申请其它事务所持有的锁而等待，因此产生的循环等待现象被称为<strong>死锁</strong></p>
+</li>
+<li><p>死锁问题的处理办法</p>
+<ul>
+<li><p>预防法</p>
+<ul>
+<li><p>采用一定的锁申请操作方式以避免死锁现象的发生</p>
+<ul>
+<li><p>顺序申请法</p>
+</li>
+<li><p>一次申请法</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>解除法</p>
+<ul>
+<li>允许产生死锁，当系统通过<strong>死锁检测</strong>程序发现出现死锁现象时，可以调用解锁程序来解除死锁<ul>
+<li>超时死锁检测法<ul>
+<li>事务的执行时间超时</li>
+<li>锁申请的等待时间超时</li>
+</ul>
+</li>
+<li>等待图法</li>
+<li>时间戳死锁检测法</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-活锁（livelock）"><a href="#2-活锁（livelock）" class="headerlink" title="2. 活锁（livelock）"></a>2. 活锁（livelock）</h4><ul>
+<li>有部分事务因封锁申请得不到满足而处于长期等待状态，但其它的事务仍然可以继续运行下去，这种情况被称为<strong>活锁</strong></li>
+<li>解决方法<ul>
+<li>先来先服务</li>
+</ul>
+</li>
+</ul>
+<h2 id="三、数据库恢复技术"><a href="#三、数据库恢复技术" class="headerlink" title="三、数据库恢复技术"></a>三、数据库恢复技术</h2><h3 id="（一）概述"><a href="#（一）概述" class="headerlink" title="（一）概述"></a>（一）概述</h3><h4 id="数据库恢复"><a href="#数据库恢复" class="headerlink" title="数据库恢复"></a>数据库恢复</h4><ul>
+<li><p>在数据库遭受破坏后及时进行恢复的功能</p>
+</li>
+<li><p>方法</p>
+<ul>
+<li>利用数据冗余原理，将数据库中的数据在不同的存储介质上进行冗余存储，当数据库本身受到破坏时，可以利用这些冗余信息进行恢复</li>
+</ul>
+</li>
+<li><p>常用措施</p>
+<ul>
+<li><p>数据转储</p>
+</li>
+<li><p>日志</p>
+</li>
+<li><p>数据库镜像</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="（二）数据库故障分类"><a href="#（二）数据库故障分类" class="headerlink" title="（二）数据库故障分类"></a>（二）数据库故障分类</h3><h4 id="1-小型故障"><a href="#1-小型故障" class="headerlink" title="1. 小型故障"></a>1. 小型故障</h4><ul>
+<li>事务内部故障<ul>
+<li>故障的影响范围在一个事务之内，不影响整个系统的正常运行</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-中型故障"><a href="#2-中型故障" class="headerlink" title="2. 中型故障"></a>2. 中型故障</h4><ul>
+<li><p>系统故障</p>
+</li>
+<li><p>外部影响</p>
+<ul>
+<li>可导致整个系统停止工作，但磁盘数据不受影响。在系统重启时，可通过当前的日志文件进行恢复</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-大型故障"><a href="#3-大型故障" class="headerlink" title="3. 大型故障"></a>3. 大型故障</h4><ul>
+<li><p>磁盘故障</p>
+</li>
+<li><p>计算机病毒</p>
+</li>
+<li><p>黑客入侵</p>
+<ul>
+<li>可导致内存及磁盘数据的严重破坏，需要对数据库做彻底的恢复</li>
+</ul>
+</li>
+</ul>
+<h3 id="（三）数据库故障恢复三大技术"><a href="#（三）数据库故障恢复三大技术" class="headerlink" title="（三）数据库故障恢复三大技术"></a>（三）数据库故障恢复三大技术</h3><h4 id="1-数据转储（dump）"><a href="#1-数据转储（dump）" class="headerlink" title="1. 数据转储（dump）"></a>1. 数据转储（dump）</h4><ul>
+<li><p>定期地将数据库中的内容复制到其它存储设备中去的过程</p>
+</li>
+<li><p>后备（后援）副本：经转储而得到的备份数据</p>
+</li>
+<li><p>转储的分类</p>
+<ul>
+<li><p>静态转储 vs 动态转储</p>
+</li>
+<li><p>海量转储 vs 增量转储</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-日志（log）"><a href="#2-日志（log）" class="headerlink" title="2. 日志（log）"></a>2. 日志（log）</h4><h5 id="（1）日志"><a href="#（1）日志" class="headerlink" title="（1）日志"></a>（1）日志</h5><ul>
+<li><p>是由数据库系统创建和维护的，用于自动记载数据库中修改型操作的数据更新情况的文件</p>
+</li>
+<li><p>日志的内容</p>
+<ul>
+<li><p>每个更新操作的事务标识、更新对象、更新前的值和 &#x2F; 或更新后的值</p>
+</li>
+<li><p>每个事务的开始、结束等执行情况</p>
+</li>
+<li><p>其它信息</p>
+</li>
+</ul>
+</li>
+<li><p>日志的组成</p>
+<ul>
+<li>日志是<strong>日志记录</strong>的一个序列，每个<strong>日志记录</strong>记载有关某个事务已执行操作的情况。由于日志主要用于 DB 的故障恢复，所以这里记载的主要是事务的更新操作的执行情况</li>
+<li>由于事务通常是并发执行的，所以多个事务的日志记录通常是交错在一起的</li>
+</ul>
+</li>
+<li><p>日志的作用</p>
+<ul>
+<li>确保事务执行的原子性</li>
+<li>实现增量转储</li>
+<li>实现故障恢复<ul>
+<li>在发生系统故障时，为了修复故障所产生的影响，某些事务的操作将会被重做（ redo ），而另一些事务的操作将会被撤消（ undo）</li>
+<li>为了区分哪些事务将被重做，哪些事务将被撤消，在日志中需要记载每个事务的结束标志：<ul>
+<li>提交（ commit ）：将被重执</li>
+<li>放弃（ abort ）：将被撤消</li>
+</ul>
+</li>
+<li>在日志中尚未有结束标志的事务，在进行故障恢复时将等同于被放弃的事务看待</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>日志的书写原则</p>
+<ul>
+<li>按照操作执行的先后次序，遵循先写日志，后修改数据库的原则</li>
+</ul>
+</li>
+<li><p>几种不同的日志</p>
+<ul>
+<li>undo 日志<ul>
+<li>用于被放弃事务（包括在发生故障时尚未结束的事务）的撤消工作</li>
+</ul>
+</li>
+<li>redo 日志<ul>
+<li>用于已提交事务的重做工作</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="（2）undo-日志"><a href="#（2）undo-日志" class="headerlink" title="（2）undo 日志"></a>（2）undo 日志</h5><ul>
+<li><p>undo 日志的记录格式</p>
+<ul>
+<li>开始一个事务：&lt;Start T&gt;</li>
+<li>提交事务 T：&lt;Commit T&gt;</li>
+<li>放弃事务 T：&lt;Abort T&gt;</li>
+<li>更新记录：&lt;T, X, V&gt;<ul>
+<li>事务 T 修改了数据库元素 X 的值，而 X 的旧值是 V</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>undo 日志的记载规则</p>
+<ul>
+<li>$U_1$：如果事务 T 修改了数据库元素 X ，则更新日志 &lt;T, X,V&gt; 必须在 X 的新值写到磁盘前写到磁盘</li>
+<li>$U_2$：如果事务 T 提交，则日志记录 &lt;Commit&gt; 必须在事务 T 改变的所有 DB 元素已写到磁盘后再写到磁盘</li>
+</ul>
+</li>
+<li><p>使用 undo 日志的恢复过程</p>
+<ul>
+<li>将所有事务划分为两个集合<ul>
+<li>已提交事务：有 &lt;Start&gt; 和 &lt;Commit&gt;</li>
+<li>未提交事务：有 &lt;Start&gt; 但没有 &lt;Commit&gt;</li>
+</ul>
+</li>
+<li>从 undo 日志的尾部开始向后（日志头部）扫描整个日志，对每一条更新记录 &lt;T, X, V&gt; 作如下处理：<ul>
+<li>如果 &lt;Commit&gt; 已被扫描到，则继续扫描下一条日志记录（基于规则$U_2$）</li>
+<li>否则，由恢复管理器将数据库中 X 的值改为 V（基于规则$U_1$）</li>
+</ul>
+</li>
+<li>在日志的尾部为每个未结束事务写入一条日志记录 &lt;Abort T&gt;，并刷新日志 (Flush Log)</li>
+</ul>
+</li>
+<li><p>检查点（ checkpoint）</p>
+<ul>
+<li><p>上述恢复过程需要扫描整个 undo 日志文件，为了降低数据库故障恢复的开销，可以定期地在日志文件中插入检查点</p>
+</li>
+<li><p>在日志中插入检查点的处理过程包括：</p>
+<ul>
+<li>系统停止接受<strong>启动新事务的请求</strong></li>
+<li>等到所有当前活跃的事务被提交或中止，并且在日志中写入了 &lt;Commit&gt; 或 &lt;Abort&gt; 记录</li>
+<li>将日志记录刷新到磁盘</li>
+<li>写入日志记录 &lt;CKPT&gt;，并再次刷新日志</li>
+<li>重新开始接受新的事务</li>
+</ul>
+</li>
+<li><p>在故障恢复时，只要逆向扫描到第一条 &lt;CKPT&gt; 记录（最后一个被记入的检查点）就可以结束故障恢复工作</p>
+</li>
+<li><p>非静止检查点</p>
+<ul>
+<li>在设置检查点的过程中，允许新的事务进入系统</li>
+</ul>
+</li>
+<li><p>设置<strong>非静止检查点</strong>的步骤包括</p>
+<ul>
+<li><p>写入日志记录&lt;Start CKPT(T1,…,Tk)&gt;，并刷新日志；其中：T1,…,Tk是当前所有活跃事务的标识符</p>
+</li>
+<li><p>等待T1,…,Tk中的每一个事务的提交或中止，但允许开始执行其它新的事务</p>
+</li>
+<li><p>当T1,…,Tk都已经完成时，写入日志记录&lt;End CKPT&gt;并刷新日志</p>
+</li>
+</ul>
+</li>
+<li><p>带有非静止检查点日志的恢复</p>
+<ul>
+<li><p>从日志尾部向后（日志头部）扫描日志文件进行故障恢复</p>
+</li>
+<li><p>可能会出现以下的两种情况：</p>
+<ul>
+<li><p>先遇到 &lt;End CKPT&gt; 记录</p>
+<ul>
+<li>继续向后扫描，直到出现与之相对应的 &lt;StartCKPT(…)&gt; 记录就可以结束故障恢复工作，在这之后的日志记录是没有用处的，可以被抛弃</li>
+</ul>
+</li>
+<li><p>先遇到 &lt;Start CKPT(T1, … , Tk)&gt; 记录，此种情况下的故障恢复工作需要撤消两类事务的操作：</p>
+<ul>
+<li><p>在&lt;Start CKPT(T1,**…**,Tk)&gt;记录之后启动的事务</p>
+<ul>
+<li>在扫描到&lt;Start CKPT(T1,**…**,Tk)&gt;记录时，这类事务的操作已经被撤消</li>
+</ul>
+</li>
+<li><p>T1,<strong>…</strong>,Tk中在系统崩溃前尚未完成的事务</p>
+<ul>
+<li>继续向后扫描日志，直至其中未完成事务的访问操作被全部撤消</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>undo 日志的不足</p>
+<ul>
+<li>在将事务改变的所有数据写到磁盘前不能提交该事务</li>
+<li>上述要求将会导致：在事务的提交过程中需要执行许多<strong>写</strong>磁盘操作，从而增加了事务提交的时间开销</li>
+</ul>
+</li>
+</ul>
+<h5 id="（3）redo-日志"><a href="#（3）redo-日志" class="headerlink" title="（3）redo 日志"></a>（3）redo 日志</h5><ul>
+<li><p>redo 日志的记录格式</p>
+<ul>
+<li>redo 日志的记录格式与 undo 日志一样，唯一的区别是： 在更新记录 &lt;T, X, V&gt;中记载的是更新后的值</li>
+</ul>
+</li>
+<li><p>redo 日志的记载规则</p>
+<ul>
+<li>$R_1$：在修改磁盘上的任何数据库元素 X 之前，要保证所有与 X 的这一修改有关的日志记录（包括更新记录 &lt;T, X, V&gt; 和提交记录 &lt;Commit&gt; ）都必须出现在磁盘上</li>
+</ul>
+</li>
+<li><p>使用redo日志的恢复过程</p>
+<ul>
+<li><p>确定所有已提交的事务</p>
+</li>
+<li><p>从日志文件的首部开始扫描日志，对遇到的每一条更新记录&lt;T, X, V&gt;：</p>
+<ul>
+<li><p>如果T是未提交事务，则继续扫描日志</p>
+</li>
+<li><p>如果T是已提交的事务，则为数据库元素X写入新值V</p>
+</li>
+</ul>
+</li>
+<li><p>对每个未完成的事务T，在日志的尾部写入结束标志&lt;Abort T&gt;并刷新日志</p>
+</li>
+</ul>
+</li>
+<li><p>在 redo 日志中插入（非静止）检查点的步骤</p>
+<ul>
+<li>写入日志记录 &lt;Start CKPT(T1 ,…,Tk )&gt;，并刷新日志；<ul>
+<li>其中：T1 ,…,Tk 是当前所有活跃事务的标识符</li>
+<li>同时获得当时所有已提交事务的标识符集合 S</li>
+</ul>
+</li>
+<li>将集合 S 中的事务已经写到内存缓冲区但还没有写到数据库磁盘的数据库元素写入磁盘；</li>
+<li>写入日志记录 &lt;End CKPT&gt;并刷新日志<ul>
+<li>不必等待事务 T1 ,…,Tk 或新开始事务的结束</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="（4）redo日志与undo日志的主要区别"><a href="#（4）redo日志与undo日志的主要区别" class="headerlink" title="（4）redo日志与undo日志的主要区别"></a>（4）redo日志与undo日志的主要区别</h5><ul>
+<li>恢复的目的不一样</li>
+</ul>
+<ul>
+<li><p>提交记录&lt;Commit T&gt;写入日志的时间不一样</p>
+<ul>
+<li><p>undo日志：在事务 T 的所有数据库磁盘修改操作(Output)结束后才能在日志中写入提交记录&lt;Commit T&gt;</p>
+</li>
+<li><p>redo日志：在提交记录&lt;Commit T&gt;被写入磁盘后才能将事务T更新后的值写入数据库的磁盘中</p>
+</li>
+</ul>
+</li>
+<li><p>在更新记录&lt;T, X, V&gt;中保存的值V不一样</p>
+</li>
+</ul>
+<h5 id="（5）redo日志与undo日志的不足"><a href="#（5）redo日志与undo日志的不足" class="headerlink" title="（5）redo日志与undo日志的不足"></a>（5）redo日志与undo日志的不足</h5><ul>
+<li>Undo 日志要求数据在事务结束后立即写到磁盘，可能增加需要执行磁盘 I&#x2F;O 的次数</li>
+<li>Redo 日志要求事务提交和日志记录刷新之前将所有修改过的数据保留在内存缓冲区中，可能增加事务需要的平均缓冲区的数量</li>
+<li>如果被访问的数据对象 X 不是完整的磁盘块，那么在 undo 日志与 redo 日志之间可能产生相互矛盾的请求</li>
+</ul>
+<h5 id="（6）undo-x2F-redo日志"><a href="#（6）undo-x2F-redo日志" class="headerlink" title="（6）undo&#x2F;redo日志"></a>（6）undo&#x2F;redo日志</h5><ul>
+<li><p>undo&#x2F;redo 日志的记录格式</p>
+<ul>
+<li>与 undo 日志或 redo 日志的格式基本一样，区别在于更新记录的格式：&lt;T,X,v,w&gt;<ul>
+<li>不仅记录更新前的值 v ，同时也要记录更新后的新值 w</li>
+<li>因此该种类型的日志既能用于未结束事务的撤消(undo)，也能用于已提交事务的重做 (redo)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>undo&#x2F;redo 日志的记载规则</p>
+<ul>
+<li>$UR_1$：在由于某个事务 T 所做的改变而修改磁盘上的数据库元素 X 之前，更新记录 &lt;T, X, v, w&gt; 必须出现在磁盘上。<ul>
+<li>其中， v 是 X 被更新前的值， w 是 X 被更新后的值</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>使用undo&#x2F;redo日志的故障恢复过程</p>
+<ul>
+<li><p>根据&lt;Commit T&gt;是否已经出现在磁盘中来决定事务T是否已经被提交</p>
+</li>
+<li><p>具体的恢复过程如下：</p>
+<ul>
+<li><p>按照从后往前的顺序，撤消(undo)所有未提交的事务</p>
+</li>
+<li><p>按照从前往后的顺序，重做(redo)所有已提交的事务</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>为了确保在日志中写入&lt;Commit T&gt;记录的事务 T 确实被提交，为undo&#x2F;redo日志新增加了一条记载规则：</p>
+<ul>
+<li>$UR_2$：在每一条&lt;Commit T&gt; 后面必须紧跟一条Flush Log 操作</li>
+</ul>
+</li>
+<li><p>在undo&#x2F;redo日志中插入检查点</p>
+<ul>
+<li><p>写入日志记录&lt;Start CKPT(T1,**…**,Tk)&gt;，并刷新日志</p>
+<ul>
+<li>其中：T1,<strong>…</strong>,Tk是当前所有活跃事务的标识符</li>
+</ul>
+</li>
+<li><p>将所有被修改过的缓冲区写到数据库的磁盘中去</p>
+</li>
+<li><p>写入日志记录&lt;End CKPT&gt;并刷新日志</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-事务的撤消与重做"><a href="#3-事务的撤消与重做" class="headerlink" title="3. 事务的撤消与重做"></a>3. 事务的撤消与重做</h4><h5 id="（1）事务的撤消（undo）"><a href="#（1）事务的撤消（undo）" class="headerlink" title="（1）事务的撤消（undo）"></a>（1）事务的撤消（undo）</h5><ul>
+<li><p>反向扫描日志文件，查找应该撤消的事务</p>
+</li>
+<li><p>查找这些事务的更新操作</p>
+</li>
+<li><p>对更新操作做逆操作</p>
+<ul>
+<li><p>插入操作：删除被插入的元组</p>
+</li>
+<li><p>删除操作：将被删除的元组重新插入</p>
+</li>
+<li><p>修改操作：用修改前的值替代修改后的值</p>
+</li>
+</ul>
+</li>
+<li><p>如此反向扫描直到日志文件的头部</p>
+</li>
+</ul>
+<h5 id="（2）事务的重做（redo）"><a href="#（2）事务的重做（redo）" class="headerlink" title="（2）事务的重做（redo）"></a>（2）事务的重做（redo）</h5><ul>
+<li>正向扫描日志文件，查找应该重做的事务</li>
+<li>查找这些事务的更新操作</li>
+<li>对更新操作作重做处理<ul>
+<li>插入操作：重新插入新元组</li>
+<li>删除操作：重新删除旧的元组</li>
+<li>修改操作：用修改后的值替代修改前的值</li>
+</ul>
+</li>
+<li>如此正向扫描直到日志文件的尾部</li>
+</ul>
+<h3 id="（四）恢复策略"><a href="#（四）恢复策略" class="headerlink" title="（四）恢复策略"></a>（四）恢复策略</h3><h4 id="1-小型故障的恢复"><a href="#1-小型故障的恢复" class="headerlink" title="1. 小型故障的恢复"></a>1. 小型故障的恢复</h4><ul>
+<li>利用未结束事务的 undo 操作进行恢复</li>
+</ul>
+<h4 id="2-中型故障的恢复"><a href="#2-中型故障的恢复" class="headerlink" title="2. 中型故障的恢复"></a>2. 中型故障的恢复</h4><ul>
+<li>有两类事务需要恢复<ul>
+<li>非正常中止的事务<ul>
+<li>执行 undo 操作</li>
+</ul>
+</li>
+<li>已完成提交的事务<ul>
+<li>其更新操作的修改结果还留在内存缓冲区中，尚未来得及写入磁盘，由于故障使内存缓冲区中的数据被丢失</li>
+<li>执行 redo 操作</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-大型故障的恢复"><a href="#3-大型故障的恢复" class="headerlink" title="3. 大型故障的恢复"></a>3. 大型故障的恢复</h4><ul>
+<li>先利用后备副本进行数据库恢复，再利用日志进行数据库的恢复。具体步骤如下<ul>
+<li>将后备副本中的数据拷贝到数据库中</li>
+<li>检查日志文件：确定哪些事务已经执行结束，哪些尚未结束</li>
+<li>按照日志的记载顺序<ul>
+<li>逆向：对尚未结束的事务作撤消处理 (undo)</li>
+<li>正向：对已经结束的事务作重做处理 (redo)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="（五）数据库镜像"><a href="#（五）数据库镜像" class="headerlink" title="（五）数据库镜像"></a>（五）数据库镜像</h3><ul>
+<li><p>将整个数据库中的数据（或主要数据）实时复制到另一个磁盘中</p>
+<ul>
+<li><p>也称为<strong>磁盘镜像</strong></p>
+</li>
+<li><p>系统自动保证主数据库服务器中的数据与数据库镜像中的数据的一致性</p>
+</li>
+<li><p>在数据库中的数据遭受破坏后，可以利用数据库镜像中的数据进行修补</p>
+</li>
+</ul>
+</li>
 </ul>
 
                 
